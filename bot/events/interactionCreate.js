@@ -14,9 +14,11 @@ module.exports = {
       return;
     }
 
+    await interaction.deferReply({ ephemeral: true }).catch(() => null);
+
     const orderId = interaction.customId.split(':')[1];
     if (!orderId) {
-      return interaction.reply({ content: 'Invalid order ticket request.', ephemeral: true });
+      return interaction.editReply({ content: 'Invalid order ticket request.' });
     }
 
     try {
@@ -29,7 +31,7 @@ module.exports = {
       const guild = await client.guilds.fetch(config.guildId);
       const existingChannel = await findTicketChannel(guild, orderId);
       if (existingChannel) {
-        return interaction.reply({ content: `Your ticket is ready: ${existingChannel.toString()}` });
+        return interaction.editReply({ content: `Your ticket is ready: ${existingChannel.toString()}` });
       }
 
       const channel = await createTicketChannel({
@@ -52,12 +54,12 @@ module.exports = {
       );
 
       const row = buildOpenTicketButton(orderId);
-      return interaction.reply({
+      return interaction.editReply({
         content: `Ticket created: ${channel.toString()}`,
         components: [row],
       });
     } catch (error) {
-      return interaction.reply({ content: `Unable to create ticket: ${error.message}`, ephemeral: true });
+      return interaction.editReply({ content: `Unable to create ticket: ${error.message}` });
     }
   },
 };

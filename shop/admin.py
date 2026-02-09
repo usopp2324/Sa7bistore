@@ -19,6 +19,7 @@ class ProductAdmin(admin.ModelAdmin):
         'name',
         'description',
         'price',
+        'subscription_options',
         'image',
         'image_preview',
         'is_active',
@@ -46,8 +47,8 @@ class OrderItemInline(admin.TabularInline):
     """Inline admin for order items"""
     model = OrderItem
     extra = 0
-    readonly_fields = ('product', 'quantity', 'price', 'subtotal')
-    fields = ('product', 'quantity', 'price', 'subtotal')
+    readonly_fields = ('product', 'subscription_label', 'subscription_duration_days', 'quantity', 'price', 'subtotal')
+    fields = ('product', 'subscription_label', 'subscription_duration_days', 'quantity', 'price', 'subtotal')
     can_delete = False
 
     def subtotal(self, obj):
@@ -89,10 +90,10 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ('order', 'product', 'quantity', 'price', 'subtotal')
+    list_display = ('order', 'product', 'subscription_label', 'quantity', 'price', 'subtotal')
     list_filter = ('order__created_at', 'product')
     search_fields = ('order__order_id', 'product__name')
-    readonly_fields = ('order', 'product', 'quantity', 'price')
+    readonly_fields = ('order', 'product', 'subscription_label', 'subscription_duration_days', 'quantity', 'price')
 
     def subtotal(self, obj):
         return f"€{obj.subtotal}"

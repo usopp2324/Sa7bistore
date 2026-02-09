@@ -134,9 +134,136 @@ def save_cart(request, cart):
     request.session.modified = True
 
 
+def _parse_cart_key(cart_key):
+    if ':' in cart_key:
+        product_id_str, subscription_code = cart_key.split(':', 1)
+    else:
+        product_id_str, subscription_code = cart_key, ''
+    return product_id_str, subscription_code.strip()
+
+
+def _build_cart_key(product_id, subscription_code):
+    if subscription_code:
+        return f"{product_id}:{subscription_code}"
+    return str(product_id)
+
+
+def _get_subscription_option(product, subscription_code):
+    if not subscription_code:
+        return None
+    options = product.subscription_options or []
+    for option in options:
+        if option.get('code') == subscription_code:
+            return option
+    return None
+
+
+def _get_default_subscription_option(product):
+    options = product.subscription_options or []
+    if not options:
+        return None
+    for option in options:
+        if (option or {}).get('code') == 'trial':
+            return option
+    return options[0]
+
+
+def _get_subscription_meta(product, subscription_code):
+    option = _get_subscription_option(product, subscription_code)
+    if not option:
+        return 'Forever', None, subscription_code, product.price
+
+    label = option.get('label') or option.get('code') or 'Subscription'
+    duration_days = option.get('duration_days')
+    option_price = option.get('price', product.price)
+    try:
+        unit_price = Decimal(str(option_price))
+    except (TypeError, ValueError, ArithmeticError):
+        unit_price = product.price
+
+    return label, duration_days, option.get('code') or subscription_code, unit_price
+
+
+def _get_cheapest_price(product):
+    cheapest = product.price
+    options = product.subscription_options or []
+    for option in options:
+        option_price = option.get('price')
+        try:
+            price_value = Decimal(str(option_price))
+        except (TypeError, ValueError, ArithmeticError):
+            continue
+        if price_value < cheapest:
+            cheapest = price_value
+    return cheapest
+
+
+def _build_cart_items(cart):
+    cart_items = []
+    total_price = Decimal('0.00')
+    missing_cart_keys = []
+    normalized_cart = {}
+    product_cache = {}
+
+    for cart_key, quantity in cart.items():
+        product_id_str, subscription_code = _parse_cart_key(cart_key)
+        try:
+            product_id = int(product_id_str)
+        except (TypeError, ValueError):
+            missing_cart_keys.append(cart_key)
+            continue
+
+        product = product_cache.get(product_id)
+        if product is None:
+            product = Product.objects.filter(id=product_id).first()
+            product_cache[product_id] = product
+
+        if not product:
+            missing_cart_keys.append(cart_key)
+            continue
+
+        normalized_code = subscription_code
+        if normalized_code and not _get_subscription_option(product, normalized_code):
+            normalized_code = ''
+        if not normalized_code:
+            default_option = _get_default_subscription_option(product)
+            normalized_code = (default_option or {}).get('code') or ''
+
+        normalized_key = _build_cart_key(product_id, normalized_code)
+        normalized_cart[normalized_key] = normalized_cart.get(normalized_key, 0) + quantity
+
+    for cart_key, quantity in normalized_cart.items():
+        product_id_str, subscription_code = _parse_cart_key(cart_key)
+        product = product_cache.get(int(product_id_str))
+        if not product:
+            continue
+
+        subscription_label, subscription_duration_days, normalized_code, unit_price = _get_subscription_meta(
+            product,
+            subscription_code,
+        )
+        item_subtotal = unit_price * quantity
+        total_price += item_subtotal
+
+        cart_items.append({
+            'product': product,
+            'quantity': quantity,
+            'unit_price': unit_price,
+            'subtotal': item_subtotal,
+            'subscription_code': normalized_code,
+            'subscription_label': subscription_label,
+            'subscription_duration_days': subscription_duration_days,
+        })
+
+    cart_updated = normalized_cart != cart
+    return cart_items, total_price, missing_cart_keys, normalized_cart, cart_updated
+
+
 def shop_list(request):
     """Display all active products"""
     products = Product.objects.filter(is_active=True)
+    for product in products:
+        product.display_price = _get_cheapest_price(product)
     return render(request, 'shop/shop.html', {'products': products})
 
 
@@ -145,49 +272,43 @@ def cart_view(request):
     cart = get_cart(request)
     
     # Build cart items with product data
-    cart_items = []
-    total_price = Decimal('0.00')
-    missing_product_ids = []
-    
-    for product_id_str, quantity in cart.items():
-        product = Product.objects.filter(id=int(product_id_str)).first()
-        if not product:
-            missing_product_ids.append(product_id_str)
-            continue
-        item_subtotal = product.price * quantity
-        total_price += item_subtotal
-        
-        cart_items.append({
-            'product': product,
-            'quantity': quantity,
-            'subtotal': item_subtotal
-        })
+    cart_items, total_price, missing_cart_keys, normalized_cart, cart_updated = _build_cart_items(cart)
 
-    if missing_product_ids:
-        for product_id_str in missing_product_ids:
-            cart.pop(product_id_str, None)
-        save_cart(request, cart)
+    if missing_cart_keys:
+        save_cart(request, normalized_cart)
         messages.warning(request, 'Some items were removed because they are no longer available.')
+    elif cart_updated:
+        save_cart(request, normalized_cart)
 
     context = {
         'cart_items': cart_items,
         'total_price': total_price,
-        'item_count': sum(q for q in cart.values()),
+        'item_count': sum(q for q in normalized_cart.values()),
     }
     return render(request, 'shop/cart.html', context)
 
-
+@login_required
 def add_to_cart(request, product_id):
     """Add product to cart"""
     product = get_object_or_404(Product, id=product_id, is_active=True)
     
     cart = get_cart(request)
-    product_id_str = str(product_id)
-    
-    if product_id_str in cart:
-        cart[product_id_str] += 1
+    subscription_code = (request.POST.get('subscription_code') or request.GET.get('subscription_code') or '').strip()
+    if subscription_code:
+        subscription_option = _get_subscription_option(product, subscription_code)
+        if not subscription_option:
+            messages.error(request, 'Selected subscription is not available for this product.')
+            return redirect('shop:product_detail', slug=product.slug)
     else:
-        cart[product_id_str] = 1
+        subscription_option = _get_default_subscription_option(product)
+
+    normalized_code = subscription_option.get('code') if subscription_option else ''
+    cart_key = _build_cart_key(product_id, normalized_code)
+
+    if cart_key in cart:
+        cart[cart_key] += 1
+    else:
+        cart[cart_key] = 1
     
     save_cart(request, cart)
     messages.success(request, f'{product.name} added to cart')
@@ -195,15 +316,16 @@ def add_to_cart(request, product_id):
     # Return to shop or previous page
     return redirect(request.GET.get('next', 'shop:shop_list'))
 
-
+@login_required
 def remove_from_cart(request, product_id):
     """Remove product from cart"""
     cart = get_cart(request)
-    product_id_str = str(product_id)
+    subscription_code = (request.GET.get('subscription_code') or '').strip()
+    cart_key = _build_cart_key(product_id, subscription_code)
     
-    if product_id_str in cart:
+    if cart_key in cart:
         product = get_object_or_404(Product, id=product_id)
-        del cart[product_id_str]
+        del cart[cart_key]
         save_cart(request, cart)
         messages.success(request, f'{product.name} removed from cart')
     
@@ -216,7 +338,8 @@ def update_cart(request, product_id):
         return redirect('shop:cart')
     
     cart = get_cart(request)
-    product_id_str = str(product_id)
+    subscription_code = (request.POST.get('subscription_code') or '').strip()
+    cart_key = _build_cart_key(product_id, subscription_code)
     quantity = request.POST.get('quantity', '0')
     
     try:
@@ -227,10 +350,10 @@ def update_cart(request, product_id):
         quantity = 0
 
     if quantity == 0:
-        if product_id_str in cart:
-            del cart[product_id_str]
+        if cart_key in cart:
+            del cart[cart_key]
     else:
-        cart[product_id_str] = quantity
+        cart[cart_key] = quantity
 
     save_cart(request, cart)
     return redirect('shop:cart')
@@ -271,17 +394,23 @@ def checkout_view(request):
         # Create the order, then redirect user to Discord for ticket creation
         
         # Calculate total
-        total_price = Decimal('0.00')
-        order_items_data = []
+        cart_items, total_price, missing_cart_keys, normalized_cart, cart_updated = _build_cart_items(cart)
+        if missing_cart_keys:
+            save_cart(request, normalized_cart)
+            messages.error(request, 'Some items were removed because they are no longer available.')
+            return redirect('shop:cart')
+        if cart_updated:
+            save_cart(request, normalized_cart)
 
-        for product_id_str, quantity in cart.items():
-            product = get_object_or_404(Product, id=int(product_id_str))
-            item_subtotal = product.price * quantity
-            total_price += item_subtotal
+        order_items_data = []
+        for item in cart_items:
             order_items_data.append({
-                'product': product,
-                'quantity': quantity,
-                'price': product.price
+                'product': item['product'],
+                'quantity': item['quantity'],
+                'price': item['unit_price'],
+                'subscription_code': item['subscription_code'],
+                'subscription_label': item['subscription_label'] or '',
+                'subscription_duration_days': item['subscription_duration_days'],
             })
 
         profile, _ = UserProfile.objects.get_or_create(user=request.user)
@@ -318,7 +447,10 @@ def checkout_view(request):
                     order=order,
                     product=item['product'],
                     quantity=item['quantity'],
-                    price=item['price']
+                    price=item['price'],
+                    subscription_code=item['subscription_code'],
+                    subscription_label=item['subscription_label'],
+                    subscription_duration_days=item['subscription_duration_days'],
                 ))
 
             # Clear cart
@@ -358,19 +490,12 @@ def checkout_view(request):
             return redirect('shop:checkout')
 
     # GET request - show checkout page
-    cart_items = []
-    total_price = Decimal('0.00')
-    
-    for product_id_str, quantity in cart.items():
-        product = get_object_or_404(Product, id=int(product_id_str))
-        item_subtotal = product.price * quantity
-        total_price += item_subtotal
-        
-        cart_items.append({
-            'product': product,
-            'quantity': quantity,
-            'subtotal': item_subtotal
-        })
+    cart_items, total_price, missing_cart_keys, normalized_cart, cart_updated = _build_cart_items(cart)
+    if missing_cart_keys:
+        save_cart(request, normalized_cart)
+        messages.warning(request, 'Some items were removed because they are no longer available.')
+    elif cart_updated:
+        save_cart(request, normalized_cart)
 
     sellauth_cart = []
     missing_sellauth_items = False
@@ -388,7 +513,7 @@ def checkout_view(request):
     context = {
         'cart_items': cart_items,
         'total_price': total_price,
-        'item_count': sum(q for q in cart.values()),
+        'item_count': sum(q for q in normalized_cart.values()),
         'needs_discord_id': not bool(getattr(getattr(request.user, 'profile', None), 'discord_id', None)),
         'sellauth_cart': sellauth_cart,
         'missing_sellauth_items': missing_sellauth_items,
@@ -417,16 +542,22 @@ def sellauth_confirm(request):
         request.user.email = email
     request.user.save(update_fields=['first_name', 'last_name', 'email'])
 
-    total_price = Decimal('0.00')
+    cart_items, total_price, missing_cart_keys, normalized_cart, cart_updated = _build_cart_items(cart)
+    if missing_cart_keys:
+        save_cart(request, normalized_cart)
+        return JsonResponse({'ok': False, 'error': 'Some items are no longer available.'}, status=400)
+    if cart_updated:
+        save_cart(request, normalized_cart)
+
     order_items_data = []
-    for product_id_str, quantity in cart.items():
-        product = get_object_or_404(Product, id=int(product_id_str))
-        item_subtotal = product.price * quantity
-        total_price += item_subtotal
+    for item in cart_items:
         order_items_data.append({
-            'product': product,
-            'quantity': quantity,
-            'price': product.price,
+            'product': item['product'],
+            'quantity': item['quantity'],
+            'price': item['unit_price'],
+            'subscription_code': item['subscription_code'],
+            'subscription_label': item['subscription_label'] or '',
+            'subscription_duration_days': item['subscription_duration_days'],
         })
 
     order = Order.objects.create(
@@ -445,6 +576,9 @@ def sellauth_confirm(request):
             product=item['product'],
             quantity=item['quantity'],
             price=item['price'],
+            subscription_code=item['subscription_code'],
+            subscription_label=item['subscription_label'],
+            subscription_duration_days=item['subscription_duration_days'],
         )
 
     save_cart(request, {})
@@ -650,14 +784,25 @@ def discord_activation_create(request):
     if not profile or not profile.discord_id:
         return JsonResponse({'error': 'Discord ID not found for order user'}, status=404)
 
+    order_items = list(order.items.all())
+    duration_days = [
+        item.subscription_duration_days
+        for item in order_items
+        if item.subscription_duration_days
+    ]
+    duration_value = None
+    if duration_days:
+        duration_value = timedelta(days=max(duration_days))
+
     code = generate_activation_code()
-    ActivationCode.objects.create(code=code)
+    ActivationCode.objects.create(code=code, duration=duration_value)
 
     return JsonResponse({
         'ok': True,
         'order_id': order.order_id,
         'discord_id': profile.discord_id,
         'code': code,
+        'duration_days': max(duration_days) if duration_days else None,
     })
 
 
@@ -820,6 +965,10 @@ def product_detail(request, slug):
 
     context = {
         'product': product,
+        'has_trial': any(
+            (option or {}).get('code') == 'trial'
+            for option in (product.subscription_options or [])
+        ),
         'reviews': reviews_qs,
         'reviews_count': reviews_count,
         'avg_rating': avg_rating,

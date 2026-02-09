@@ -281,7 +281,7 @@
         <!-- Product Name & Price -->
         <div class="mb-8">
           <h1 class="text-3xl font-black gradient-text mb-3">{{ product.name }}</h1>
-          <div class="text-4xl font-black text-white">€{{ product.price }}</div>
+          <div class="text-4xl font-black text-white" id="product-price" data-base-price="{{ product.price }}">€{{ product.price }}</div>
           <div class="mt-3 flex items-center gap-2">
             {% if avg_rating > 0 %}
               <div class="flex gap-1">
@@ -302,6 +302,37 @@
         <div class="space-y-3 mb-6">
           <form method="POST" action="{% url 'shop:add_to_cart' product.id %}" class="w-full">
             {% csrf_token %}
+            {% if product.subscription_options %}
+              <div class="mb-6">
+                <h3 class="text-sm font-semibold text-white mb-3">Select Plan</h3>
+                <div class="space-y-3" id="subscription-options">
+                  {% for option in product.subscription_options %}
+                  <label class="flex items-center justify-between gap-3 p-3 rounded-lg border border-slate-700/50 bg-slate-800/50 hover:border-red-500/30 transition">
+                    <span class="flex items-center gap-3">
+                      <input
+                        type="radio"
+                        name="subscription_code"
+                        value="{{ option.code }}"
+                        data-price="{{ option.price }}"
+                        class="accent-red-500"
+                        {% if option.code == 'trial' %}checked{% endif %}
+                      >
+                      <span class="text-sm text-slate-200">
+                        {{ option.label }}
+                        {% if option.duration_days %}
+                          <span class="text-xs text-slate-400">({{ option.duration_days }} days)</span>
+                        {% else %}
+                          <span class="text-xs text-slate-400">(Forever)</span>
+                        {% endif %}
+                      </span>
+                    </span>
+                    <span class="text-sm font-semibold text-white">€{{ option.price }}</span>
+                  </label>
+                  {% endfor %}
+                </div>
+                <p class="mt-2 text-xs text-slate-400">Trial is selected by default when available.</p>
+              </div>
+              {% endif %}
             <input type="hidden" name="quantity" value="1">
             <button type="submit" class="w-full bg-gradient-to-r from-red-500 to-red-600 text-white font-bold py-3 px-6 rounded-lg hover:from-red-600 hover:to-red-700 transition-all shadow-lg shadow-red-500/20 hover:shadow-red-500/40 flex items-center justify-center gap-2">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
@@ -385,6 +416,32 @@
 <script>
 // AJAX like handling for review likes
 document.addEventListener('DOMContentLoaded', function(){
+  const priceEl = document.getElementById('product-price');
+  const subscriptionOptions = document.getElementById('subscription-options');
+
+  if (priceEl && subscriptionOptions) {
+    const radios = subscriptionOptions.querySelectorAll('input[name="subscription_code"]');
+    let checked = subscriptionOptions.querySelector('input[name="subscription_code"]:checked');
+
+    if (!checked && radios.length) {
+      checked = radios[0];
+      checked.checked = true;
+    }
+
+    const updatePrice = (radio) => {
+      const price = radio.dataset.price || priceEl.dataset.basePrice;
+      priceEl.textContent = `€${price}`;
+    };
+
+    if (checked) {
+      updatePrice(checked);
+    }
+
+    radios.forEach((radio) => {
+      radio.addEventListener('change', () => updatePrice(radio));
+    });
+  }
+
   document.querySelectorAll('.like-form').forEach(function(form){
     form.addEventListener('submit', function(e){
       e.preventDefault();

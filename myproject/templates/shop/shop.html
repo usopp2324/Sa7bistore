@@ -387,7 +387,7 @@
         <div class="flex items-center justify-between pt-4 border-t border-dark-700">
           <div class="flex flex-col">
             <span class="text-xs text-gray-500 uppercase tracking-wide">Price</span>
-            <div class="text-2xl font-black gradient-text">€{{ product.price }}</div>
+            <div class="text-2xl font-black gradient-text">€{{ product.display_price }}</div>
           </div>
           <div class="flex items-center gap-3">
             <a href="{% url 'shop:add_to_cart' product.id %}?next={% url 'shop:shop_list' %}" class="btn-buy inline-flex items-center gap-2 bg-gradient-to-r from-primary to-secondary text-white px-5 py-2 rounded-xl font-semibold hover:shadow-lg">

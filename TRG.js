@@ -1,21 +1,29 @@
 const { fail } = require('assert');
 const { channel } = require('diagnostics_channel');
 const Discord = require('discord.js');
+const { embedToContainer, patchComponentsV2 } = require('./bot/utils/componentsV2');
 const {
     Client,
-   
+   ContainerBuilder: DiscordContainerBuilder,
+   TextDisplayBuilder: DiscordTextDisplayBuilder,
+    MessageFlags: DiscordMessageFlags,
     ModalBuilder: DiscordModalBuilder,
     TextInputBuilder: DiscordTextInputBuilder,
     TextInputStyle: DiscordTextInputStyle,
     ComponentType: DiscordComponentType,
     ButtonStyle: DiscordButtonStyle,
 } = Discord;
+patchComponentsV2();
 const GatewayIntentBits = Discord.GatewayIntentBits || (Discord.Intents && Discord.Intents.FLAGS) || {};
 const PermissionFlagsBits = Discord.PermissionFlagsBits || (Discord.Permissions && Discord.Permissions.FLAGS) || {};
+const PermissionsBitField = Discord.PermissionsBitField || Discord.Permissions || {};
 const EmbedBuilder = Discord.EmbedBuilder || Discord.MessageEmbed;
+const ContainerBuilder = DiscordContainerBuilder || Discord.ContainerBuilder;
 const ActionRowBuilder = Discord.ActionRowBuilder || Discord.MessageActionRow;
+const TextDisplayBuilder = DiscordTextDisplayBuilder || Discord.TextDisplayBuilder;
 const StringSelectMenuBuilder = Discord.StringSelectMenuBuilder || Discord.MessageSelectMenu;
 const ButtonBuilder = Discord.ButtonBuilder || Discord.MessageButton;
+const MessageFlags = DiscordMessageFlags || { Ephemeral: 1 << 6, IsComponentsV2: 1 << 15 };
 const ModalBuilder = DiscordModalBuilder || Discord.Modal;
 const TextInputBuilder = DiscordTextInputBuilder || Discord.TextInputComponent;
 const TextInputStyle = DiscordTextInputStyle || { Short: 'SHORT', Paragraph: 'PARAGRAPH' };
@@ -38,6 +46,7 @@ const countries = require('./bot/trg/data/countries');
 const brands = require('./bot/trg/data/brands');
 const commandCategories = require('./bot/trg/commandCategories');
 const embedConfig = require('./bot/trg/embedConfig');
+const { text } = require('stream/consumers');
 
             const sharedClient = global.__siteBotClient;
             const client = sharedClient || new Client({
@@ -51,6 +60,9 @@ const embedConfig = require('./bot/trg/embedConfig');
                     GatewayIntentBits.GuildInvites
                 ]
             });
+            
+            
+            
             const shouldLogin = !sharedClient;
             const TOKEN = process.env.DISCORD_TOKEN;
             const AUTO_ROLE_ID = process.env.AUTO_ROLE_ID || '1455988550498517072';
@@ -1633,7 +1645,16 @@ client.on('interactionCreate', async (interaction) => {
                             .setEmoji('<:black_lock:1393519644111011911>')
                     );
 
-                await ticketChannel.send({ content: `<@&${TICKET_ADMIN_ROLE_ID}>`, embeds: [ticketOpenEmbed], components: [closeButton] });
+                const mentionContainer = new ContainerBuilder().addTextDisplayComponents(
+                    new TextDisplayBuilder().setContent(`<@&${TICKET_ADMIN_ROLE_ID}>`)
+                );
+                const ticketContainer = embedToContainer(ticketOpenEmbed);
+                const components = [mentionContainer, ticketContainer, closeButton].filter(Boolean);
+
+                await ticketChannel.send({
+                    flags: MessageFlags.IsComponentsV2,
+                    components,
+                });
                 await interaction.editReply({ content: `Your ticket has been created: <#${ticketChannel.id}>`, flags: 64 });
                 console.log(`Ticket created for user ${interaction.user.id}: ${ticketChannel.id}`);
             }

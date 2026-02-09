@@ -8618,3 +8618,2111 @@ django.core.exceptions.FieldError: Cannot resolve keyword 'order_id' into field.
 2026-02-07 19:30:42,022 INFO django.server "GET / HTTP/1.1" 200 87354
 2026-02-07 19:30:58,520 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
 2026-02-07 19:31:13,536 INFO django.server "GET / HTTP/1.1" 200 87353
+2026-02-07 19:31:29,117 ERROR django.request Internal Server Error: /shop/wishlist/count/
+Traceback (most recent call last):
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 246, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: django_session
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\anas\Desktop\myproject\shop\views.py", line 863, in wishlist_count
+    if not request.user.is_authenticated:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\utils\functional.py", line 251, in inner
+    self._setup()
+    ~~~~~~~~~~~^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\utils\functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ~~~~~~~~~~~~~~~^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\auth\middleware.py", line 40, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ~~~~~~~~^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\auth\middleware.py", line 20, in get_user
+    request._cached_user = auth.get_user(request)
+                           ~~~~~~~~~~~~~^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\auth\__init__.py", line 311, in get_user
+    user_id = _get_user_session_key(request)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\auth\__init__.py", line 95, in _get_user_session_key
+    return get_user_model()._meta.pk.to_python(request.session[SESSION_KEY])
+                                               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 55, in __getitem__
+    return self._session[key]
+           ^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 251, in _get_session
+    self._session_cache = self.load()
+                          ~~~~~~~~~^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\db.py", line 55, in load
+    s = self._get_session_from_db()
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        session_key=self.session_key, expire_date__gt=timezone.now()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 635, in get
+    num = len(clone)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 372, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: django_session
+2026-02-07 19:31:29,144 ERROR django.server "GET /shop/wishlist/count/ HTTP/1.1" 500 189013
+2026-02-07 19:31:58,865 ERROR django.request Internal Server Error: /shop/wishlist/count/
+Traceback (most recent call last):
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 246, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: django_session
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\anas\Desktop\myproject\shop\views.py", line 863, in wishlist_count
+    if not request.user.is_authenticated:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\utils\functional.py", line 251, in inner
+    self._setup()
+    ~~~~~~~~~~~^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\utils\functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ~~~~~~~~~~~~~~~^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\auth\middleware.py", line 40, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ~~~~~~~~^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\auth\middleware.py", line 20, in get_user
+    request._cached_user = auth.get_user(request)
+                           ~~~~~~~~~~~~~^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\auth\__init__.py", line 311, in get_user
+    user_id = _get_user_session_key(request)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\auth\__init__.py", line 95, in _get_user_session_key
+    return get_user_model()._meta.pk.to_python(request.session[SESSION_KEY])
+                                               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 55, in __getitem__
+    return self._session[key]
+           ^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 251, in _get_session
+    self._session_cache = self.load()
+                          ~~~~~~~~~^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\db.py", line 55, in load
+    s = self._get_session_from_db()
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        session_key=self.session_key, expire_date__gt=timezone.now()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 635, in get
+    num = len(clone)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 372, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: django_session
+2026-02-07 19:31:58,875 ERROR django.server "GET /shop/wishlist/count/ HTTP/1.1" 500 189013
+2026-02-07 19:32:28,914 ERROR django.request Internal Server Error: /shop/wishlist/count/
+Traceback (most recent call last):
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 246, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: django_session
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\anas\Desktop\myproject\shop\views.py", line 863, in wishlist_count
+    if not request.user.is_authenticated:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\utils\functional.py", line 251, in inner
+    self._setup()
+    ~~~~~~~~~~~^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\utils\functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ~~~~~~~~~~~~~~~^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\auth\middleware.py", line 40, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ~~~~~~~~^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\auth\middleware.py", line 20, in get_user
+    request._cached_user = auth.get_user(request)
+                           ~~~~~~~~~~~~~^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\auth\__init__.py", line 311, in get_user
+    user_id = _get_user_session_key(request)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\auth\__init__.py", line 95, in _get_user_session_key
+    return get_user_model()._meta.pk.to_python(request.session[SESSION_KEY])
+                                               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 55, in __getitem__
+    return self._session[key]
+           ^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 251, in _get_session
+    self._session_cache = self.load()
+                          ~~~~~~~~~^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\db.py", line 55, in load
+    s = self._get_session_from_db()
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        session_key=self.session_key, expire_date__gt=timezone.now()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 635, in get
+    num = len(clone)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 372, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: django_session
+2026-02-07 19:32:28,924 ERROR django.server "GET /shop/wishlist/count/ HTTP/1.1" 500 189013
+2026-02-07 20:09:22,414 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-02-07 20:09:24,031 ERROR django.request Internal Server Error: /
+Traceback (most recent call last):
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 246, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: django_session
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\anas\Desktop\myproject\myproject\views.py", line 16, in home
+    return render(request, 'sa7bisite.html', {'reviews': reviews})
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\template\base.py", line 172, in render
+    with context.bind_template(self):
+         ~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Python313\Lib\contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\template\context.py", line 263, in bind_template
+    context = processor(self.request)
+  File "C:\Users\anas\Desktop\myproject\shop\context_processors.py", line 2, in cart_count
+    cart = request.session.get('cart', {})
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 74, in get
+    return self._session.get(key, default)
+           ^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 251, in _get_session
+    self._session_cache = self.load()
+                          ~~~~~~~~~^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\db.py", line 55, in load
+    s = self._get_session_from_db()
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        session_key=self.session_key, expire_date__gt=timezone.now()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 635, in get
+    num = len(clone)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 372, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: django_session
+2026-02-07 20:09:24,051 ERROR django.server "GET / HTTP/1.1" 500 195064
+2026-02-07 20:09:24,401 WARNING django.request Not Found: /favicon.ico
+2026-02-07 20:09:24,402 WARNING django.server "GET /favicon.ico HTTP/1.1" 404 5204
+2026-02-07 20:09:54,951 INFO django.server "GET / HTTP/1.1" 200 87353
+2026-02-07 20:09:56,122 INFO django.server "GET /shop/login/ HTTP/1.1" 200 24973
+2026-02-07 20:10:07,880 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:11:07,873 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:12:07,883 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:12:16,648 INFO django.server "GET /shop/register/ HTTP/1.1" 200 26565
+2026-02-07 20:13:07,882 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:14:07,877 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:15:07,887 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:16:07,877 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:17:07,881 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:17:42,461 INFO django.server "GET /admin/ HTTP/1.1" 302 0
+2026-02-07 20:17:42,571 INFO django.server "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4080
+2026-02-07 20:17:48,015 INFO django.server "POST /admin/login/?next=/admin/ HTTP/1.1" 200 4248
+2026-02-07 20:17:51,922 INFO django.server "POST /admin/login/?next=/admin/ HTTP/1.1" 200 4248
+2026-02-07 20:17:56,142 INFO django.server "POST /admin/login/?next=/admin/ HTTP/1.1" 200 4248
+2026-02-07 20:18:02,825 INFO django.server "POST /admin/login/?next=/admin/ HTTP/1.1" 200 4248
+2026-02-07 20:18:07,881 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:19:07,878 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:20:07,873 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:21:07,881 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:22:07,893 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:23:07,889 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:24:07,885 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:25:07,903 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:26:07,879 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:27:07,883 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:28:07,871 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:29:07,884 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:30:07,880 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:31:07,873 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:32:07,886 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:33:07,892 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:34:07,877 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:35:07,901 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:36:07,876 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:37:07,878 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:38:07,879 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:39:07,890 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:40:07,888 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:41:07,883 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:42:07,883 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:43:07,874 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:44:07,904 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:45:07,889 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:46:07,876 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:47:07,893 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:48:07,943 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:48:44,432 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:48:58,874 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:49:28,884 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:50:07,902 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:51:07,890 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:52:07,914 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:53:07,908 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:54:07,890 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:55:07,883 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:56:07,886 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:57:07,878 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:58:07,888 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 20:59:07,891 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:00:07,874 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:01:07,888 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:02:07,886 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:03:07,890 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:04:07,892 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:05:07,882 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:06:07,883 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:07:07,892 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:08:07,873 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:09:07,882 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:10:07,896 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:11:07,889 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:12:07,878 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:13:07,890 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:14:07,877 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:15:07,895 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:16:07,876 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:17:07,882 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:18:07,883 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:19:07,883 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:20:07,876 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:21:07,870 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:22:07,882 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:23:07,884 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:24:07,872 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:25:07,888 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:26:07,884 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:27:07,887 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:28:07,884 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:29:07,884 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:30:07,885 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:31:05,719 INFO django.server "GET / HTTP/1.1" 200 83403
+2026-02-07 21:31:05,844 INFO django.server "GET /static/logo.png HTTP/1.1" 304 0
+2026-02-07 21:31:07,899 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:32:07,894 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:32:49,203 WARNING django.request Not Found: /favicon.ico
+2026-02-07 21:32:49,204 WARNING django.server "GET /favicon.ico HTTP/1.1" 404 5204
+2026-02-07 21:32:49,629 INFO django.server "GET / HTTP/1.1" 200 83403
+2026-02-07 21:32:50,588 INFO django.server "GET /static/logo.png HTTP/1.1" 200 144366
+2026-02-07 21:33:07,887 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:34:07,875 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:34:15,145 INFO django.server "GET /static/logo.png HTTP/1.1" 200 144366
+2026-02-07 21:34:17,197 INFO django.server "GET / HTTP/1.1" 200 83899
+2026-02-07 21:34:47,875 INFO django.server "GET / HTTP/1.1" 200 83899
+2026-02-07 21:35:00,643 INFO django.server "GET /shop/order/placed/SA7BI-LXUR4-TVDHM-CSJ9L/ HTTP/1.1" 302 0
+2026-02-07 21:35:01,254 INFO django.server "GET /shop/login/?next=/shop/order/placed/SA7BI-LXUR4-TVDHM-CSJ9L/ HTTP/1.1" 200 24973
+2026-02-07 21:35:01,960 INFO django.server "GET /static/logo.png HTTP/1.1" 200 144366
+2026-02-07 21:35:04,017 INFO django.server "GET / HTTP/1.1" 200 83899
+2026-02-07 21:35:07,889 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:35:23,779 INFO django.server "GET /shop/ HTTP/1.1" 200 34090
+2026-02-07 21:35:28,165 INFO django.server "GET / HTTP/1.1" 200 83899
+2026-02-07 21:35:38,802 WARNING django.request Not Found: /favicon.ico
+2026-02-07 21:35:38,803 WARNING django.server "GET /favicon.ico HTTP/1.1" 404 5204
+2026-02-07 21:35:39,773 INFO django.server "GET / HTTP/1.1" 200 83899
+2026-02-07 21:35:40,284 INFO django.server "GET /static/logo.png HTTP/1.1" 200 144366
+2026-02-07 21:36:07,885 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:36:38,362 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:36:58,878 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:37:28,902 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:37:29,945 INFO django.server "GET / HTTP/1.1" 200 83899
+2026-02-07 21:37:41,531 INFO django.server "GET /static/logo.png HTTP/1.1" 200 144366
+2026-02-07 21:38:07,899 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:39:07,889 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:40:07,887 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:41:07,894 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-07 21:42:45,206 INFO django.utils.autoreload C:\Users\anas\Desktop\myproject\shop\views.py changed, reloading.
+2026-02-08 00:07:11,069 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-02-08 00:08:03,184 INFO django.server "GET / HTTP/1.1" 200 83899
+2026-02-08 00:08:04,496 INFO django.server "GET /shop/ HTTP/1.1" 200 34090
+2026-02-08 00:08:06,170 INFO django.server "GET /admin/ HTTP/1.1" 302 0
+2026-02-08 00:08:06,845 INFO django.server "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4080
+2026-02-08 00:08:06,926 INFO django.server "GET /static/admin/css/base.css HTTP/1.1" 304 0
+2026-02-08 00:08:06,933 INFO django.server "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+2026-02-08 00:08:06,935 INFO django.server "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+2026-02-08 00:08:06,939 INFO django.server "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+2026-02-08 00:08:06,941 INFO django.server "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+2026-02-08 00:08:06,953 INFO django.server "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+2026-02-08 00:08:07,030 INFO django.server "GET /static/admin/css/login.css HTTP/1.1" 200 951
+2026-02-08 00:08:09,613 INFO django.server "POST /admin/login/?next=/admin/ HTTP/1.1" 200 4248
+2026-02-08 00:09:11,258 INFO django.server "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+2026-02-08 00:09:11,367 INFO django.server "GET /admin/ HTTP/1.1" 200 12443
+2026-02-08 00:09:11,392 INFO django.server "GET /static/admin/css/dashboard.css HTTP/1.1" 304 0
+2026-02-08 00:09:11,399 INFO django.server "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+2026-02-08 00:09:11,400 INFO django.server "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
+2026-02-08 00:09:14,695 INFO django.server "GET /admin/shop/product/ HTTP/1.1" 200 13531
+2026-02-08 00:09:14,749 INFO django.server "GET /static/admin/css/changelists.css HTTP/1.1" 304 0
+2026-02-08 00:09:14,752 INFO django.server "GET /static/admin/js/core.js HTTP/1.1" 304 0
+2026-02-08 00:09:14,752 INFO django.server "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+2026-02-08 00:09:14,753 INFO django.server "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+2026-02-08 00:09:14,756 INFO django.server "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+2026-02-08 00:09:14,764 INFO django.server "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+2026-02-08 00:09:14,765 INFO django.server "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+2026-02-08 00:09:14,778 INFO django.server "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+2026-02-08 00:09:14,781 INFO django.server "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 304 0
+2026-02-08 00:09:14,781 INFO django.server "GET /static/admin/img/search.svg HTTP/1.1" 304 0
+2026-02-08 00:09:14,799 INFO django.server "GET /static/admin/js/filters.js HTTP/1.1" 304 0
+2026-02-08 00:09:14,925 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-02-08 00:09:14,949 INFO django.server "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 304 0
+2026-02-08 00:09:14,949 INFO django.server "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 304 0
+2026-02-08 00:09:16,704 INFO django.server "GET /admin/shop/product/add/ HTTP/1.1" 200 20061
+2026-02-08 00:09:16,746 INFO django.server "GET /static/admin/css/forms.css HTTP/1.1" 304 0
+2026-02-08 00:09:16,749 INFO django.server "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+2026-02-08 00:09:16,762 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-02-08 00:09:16,763 INFO django.server "GET /static/admin/css/widgets.css HTTP/1.1" 304 0
+2026-02-08 00:09:16,784 INFO django.server "GET /static/admin/js/change_form.js HTTP/1.1" 304 0
+2026-02-08 00:09:16,793 INFO django.server "GET /static/admin/js/inlines.js HTTP/1.1" 200 15628
+2026-02-08 00:09:16,852 INFO django.server "GET /static/admin/img/inline-delete.svg HTTP/1.1" 200 651
+2026-02-08 00:09:26,852 INFO django.server "POST /admin/shop/product/add/ HTTP/1.1" 302 0
+2026-02-08 00:09:26,983 INFO django.server "GET /admin/shop/product/ HTTP/1.1" 200 16151
+2026-02-08 00:09:27,044 INFO django.server "GET /static/admin/img/icon-yes.svg HTTP/1.1" 304 0
+2026-02-08 00:09:27,044 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-02-08 00:09:27,056 INFO django.server "GET /media/products/icon.ico HTTP/1.1" 200 4286
+2026-02-08 00:09:27,079 INFO django.server "GET /static/admin/img/icon-yes-dark.svg HTTP/1.1" 304 0
+2026-02-08 00:09:27,081 INFO django.server "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 304 0
+2026-02-08 00:09:27,814 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-08 00:09:28,116 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 00:09:28,862 INFO django.server "GET /shop/ HTTP/1.1" 200 36539
+2026-02-08 00:09:28,920 INFO django.server "GET /media/products/icon.ico HTTP/1.1" 304 0
+2026-02-08 00:09:29,139 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 00:09:32,582 INFO django.server "GET /shop/cart/add/1/?next=/shop/ HTTP/1.1" 302 0
+2026-02-08 00:09:32,606 INFO django.server "GET /shop/ HTTP/1.1" 200 37493
+2026-02-08 00:09:32,654 INFO django.server "GET /media/products/icon.ico HTTP/1.1" 304 0
+2026-02-08 00:09:32,765 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 00:09:33,256 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27404
+2026-02-08 00:09:33,297 INFO django.server "GET /media/products/icon.ico HTTP/1.1" 304 0
+2026-02-08 00:09:33,396 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 00:09:34,287 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 39280
+2026-02-08 00:09:34,587 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 00:09:43,546 INFO shop.views Checkout submitted by user 1
+2026-02-08 00:09:43,801 INFO shop.views Order created SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ for user 1
+2026-02-08 00:09:45,917 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:09:45,918 WARNING shop.views Membership check failed for user 1; attempting ticket creation anyway
+2026-02-08 00:09:47,982 WARNING shop.discord_integration Bot ticket request failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/create (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:09:48,037 INFO django.server "POST /shop/checkout/ HTTP/1.1" 302 0
+2026-02-08 00:09:48,078 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/ HTTP/1.1" 200 29246
+2026-02-08 00:09:48,344 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 00:09:52,329 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:09:52,331 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/status/ HTTP/1.1" 200 49
+2026-02-08 00:09:58,391 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:09:58,395 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/status/ HTTP/1.1" 200 49
+2026-02-08 00:10:04,467 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:10:04,468 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/status/ HTTP/1.1" 200 49
+2026-02-08 00:10:10,528 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:10:10,530 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/status/ HTTP/1.1" 200 49
+2026-02-08 00:10:16,600 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:10:16,604 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/status/ HTTP/1.1" 200 49
+2026-02-08 00:10:18,330 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 00:10:22,666 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:10:22,667 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/status/ HTTP/1.1" 200 49
+2026-02-08 00:10:28,734 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:10:28,736 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/status/ HTTP/1.1" 200 49
+2026-02-08 00:10:34,809 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:10:34,812 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/status/ HTTP/1.1" 200 49
+2026-02-08 00:10:40,920 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:10:40,922 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/status/ HTTP/1.1" 200 49
+2026-02-08 00:10:46,993 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:10:46,996 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/status/ HTTP/1.1" 200 49
+2026-02-08 00:10:48,330 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 00:10:53,045 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:10:53,047 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/status/ HTTP/1.1" 200 49
+2026-02-08 00:10:59,121 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:10:59,123 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/status/ HTTP/1.1" 200 49
+2026-02-08 00:11:05,186 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:11:05,189 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/status/ HTTP/1.1" 200 49
+2026-02-08 00:11:11,265 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:11:11,266 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/status/ HTTP/1.1" 200 49
+2026-02-08 00:11:17,935 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:11:17,937 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/status/ HTTP/1.1" 200 49
+2026-02-08 00:11:18,880 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 00:11:24,932 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:11:24,934 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/status/ HTTP/1.1" 200 49
+2026-02-08 00:11:31,937 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:11:31,940 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/status/ HTTP/1.1" 200 49
+2026-02-08 00:11:38,921 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:11:38,922 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/status/ HTTP/1.1" 200 49
+2026-02-08 00:11:45,937 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:11:45,938 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/status/ HTTP/1.1" 200 49
+2026-02-08 00:11:48,900 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 00:11:52,928 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:11:52,931 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-OLHRQ-F6MLO-N1UAJ/status/ HTTP/1.1" 200 49
+2026-02-08 00:11:55,518 INFO django.server "GET /shop/ HTTP/1.1" 200 36539
+2026-02-08 00:11:55,551 INFO django.server "GET /media/products/icon.ico HTTP/1.1" 304 0
+2026-02-08 00:11:55,664 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 00:11:57,075 INFO django.server "GET /shop/cart/add/1/?next=/shop/ HTTP/1.1" 302 0
+2026-02-08 00:11:57,106 INFO django.server "GET /shop/ HTTP/1.1" 200 37493
+2026-02-08 00:11:57,349 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 00:11:58,561 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27404
+2026-02-08 00:11:58,796 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 00:11:59,702 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38649
+2026-02-08 00:11:59,862 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 00:12:02,795 INFO shop.views Checkout submitted by user 1
+2026-02-08 00:12:02,824 INFO shop.views Order created SA7BI-ORDER-AAMD2-LUSRZ-RDP42 for user 1
+2026-02-08 00:12:04,889 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:12:04,890 WARNING shop.views Membership check failed for user 1; attempting ticket creation anyway
+2026-02-08 00:12:06,937 WARNING shop.discord_integration Bot ticket request failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/create (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:12:06,949 INFO django.server "POST /shop/checkout/ HTTP/1.1" 302 0
+2026-02-08 00:12:06,996 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-AAMD2-LUSRZ-RDP42/ HTTP/1.1" 200 29246
+2026-02-08 00:12:07,187 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 00:12:11,205 WARNING shop.discord_integration Membership check failed: HTTPConnectionPool(host='127.0.0.1', port=3001): Max retries exceeded with url: /api/order/check-membership (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=3001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it"))
+2026-02-08 00:12:11,208 INFO django.server "GET /shop/order/join-discord/SA7BI-ORDER-AAMD2-LUSRZ-RDP42/status/ HTTP/1.1" 200 49
+2026-02-08 16:40:16,670 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-02-08 16:40:19,586 ERROR django.request Internal Server Error: /
+Traceback (most recent call last):
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: shop_product.subscription_options
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\anas\Desktop\myproject\myproject\views.py", line 16, in home
+    return render(request, 'sa7bisite.html', {'reviews': reviews})
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\template\base.py", line 174, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\template\loader_tags.py", line 160, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\template\loader_tags.py", line 66, in render
+    result = block.nodelist.render(context)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\template\defaulttags.py", line 332, in render
+    if match:
+       ^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 404, in __bool__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: shop_product.subscription_options
+2026-02-08 16:40:19,601 ERROR django.server "GET / HTTP/1.1" 500 223663
+2026-02-08 16:40:19,964 WARNING django.request Not Found: /favicon.ico
+2026-02-08 16:40:19,965 WARNING django.server "GET /favicon.ico HTTP/1.1" 404 5204
+2026-02-08 16:40:45,294 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-08 16:40:45,333 INFO django.server "GET /static/logo.png HTTP/1.1" 304 0
+2026-02-08 16:40:45,646 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:40:47,051 INFO django.server "GET /shop/ HTTP/1.1" 200 36539
+2026-02-08 16:40:47,112 INFO django.server "GET /media/products/icon.ico HTTP/1.1" 304 0
+2026-02-08 16:40:47,255 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:40:48,691 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 45177
+2026-02-08 16:40:48,829 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:40:57,298 INFO django.server "GET /about HTTP/1.1" 200 29722
+2026-02-08 16:40:57,551 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:40:57,713 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-08 16:40:57,950 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:41:01,303 INFO django.server "GET /admin/ HTTP/1.1" 200 12823
+2026-02-08 16:41:01,358 INFO django.server "GET /static/admin/css/base.css HTTP/1.1" 304 0
+2026-02-08 16:41:01,358 INFO django.server "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+2026-02-08 16:41:01,360 INFO django.server "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+2026-02-08 16:41:01,410 INFO django.server "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+2026-02-08 16:41:01,415 INFO django.server "GET /static/admin/css/dashboard.css HTTP/1.1" 304 0
+2026-02-08 16:41:01,417 INFO django.server "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+2026-02-08 16:41:01,419 INFO django.server "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+2026-02-08 16:41:01,434 INFO django.server "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+2026-02-08 16:41:01,434 INFO django.server "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
+2026-02-08 16:41:03,756 INFO django.server "GET / HTTP/1.1" 200 83899
+2026-02-08 16:41:03,775 INFO django.server "GET /admin/shop/order/ HTTP/1.1" 200 17924
+2026-02-08 16:41:03,837 INFO django.server "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+2026-02-08 16:41:03,839 INFO django.server "GET /static/admin/js/core.js HTTP/1.1" 304 0
+2026-02-08 16:41:03,841 INFO django.server "GET /static/admin/css/changelists.css HTTP/1.1" 304 0
+2026-02-08 16:41:03,841 INFO django.server "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+2026-02-08 16:41:03,848 INFO django.server "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+2026-02-08 16:41:03,849 INFO django.server "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+2026-02-08 16:41:03,849 INFO django.server "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+2026-02-08 16:41:03,865 INFO django.server "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+2026-02-08 16:41:03,868 INFO django.server "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 304 0
+2026-02-08 16:41:03,875 INFO django.server "GET /static/admin/img/search.svg HTTP/1.1" 304 0
+2026-02-08 16:41:03,893 INFO django.server "GET /static/admin/js/filters.js HTTP/1.1" 304 0
+2026-02-08 16:41:03,941 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-02-08 16:41:03,971 INFO django.server "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 304 0
+2026-02-08 16:41:03,972 INFO django.server "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 304 0
+2026-02-08 16:41:03,975 INFO django.server "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 304 0
+2026-02-08 16:41:04,965 INFO django.server "GET /static/logo.png HTTP/1.1" 200 144366
+2026-02-08 16:41:05,764 INFO django.server "GET /admin/shop/product/ HTTP/1.1" 200 15954
+2026-02-08 16:41:05,811 INFO django.server "GET /static/admin/img/icon-yes.svg HTTP/1.1" 304 0
+2026-02-08 16:41:05,818 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-02-08 16:41:06,946 INFO django.server "GET /admin/shop/product/1/change/ HTTP/1.1" 200 21308
+2026-02-08 16:41:06,988 INFO django.server "GET /static/admin/css/forms.css HTTP/1.1" 304 0
+2026-02-08 16:41:06,989 INFO django.server "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+2026-02-08 16:41:07,003 INFO django.server "GET /static/admin/css/widgets.css HTTP/1.1" 304 0
+2026-02-08 16:41:07,003 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-02-08 16:41:07,023 INFO django.server "GET /static/admin/js/change_form.js HTTP/1.1" 304 0
+2026-02-08 16:41:07,032 INFO django.server "GET /static/admin/js/inlines.js HTTP/1.1" 200 15628
+2026-02-08 16:41:07,093 INFO django.server "GET /static/admin/img/inline-delete.svg HTTP/1.1" 200 651
+2026-02-08 16:41:10,116 INFO django.server "GET /shop/ HTTP/1.1" 200 35221
+2026-02-08 16:41:11,004 INFO django.server "GET /media/products/icon.ico HTTP/1.1" 200 4286
+2026-02-08 16:41:12,266 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 43243
+2026-02-08 16:41:44,422 ERROR django.request Internal Server Error: /admin/shop/product/1/change/
+Traceback (most recent call last):
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: NOT NULL constraint failed: shop_product.subscription_options
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\admin\options.py", line 710, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\admin\sites.py", line 247, in inner
+    return view(request, *args, **kwargs)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1945, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1801, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1852, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1272, in save_model
+    obj.save()
+    ~~~~~~~~^^
+  File "C:\Users\anas\Desktop\myproject\shop\models.py", line 40, in save
+    super().save(*args, **kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\base.py", line 874, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\base.py", line 966, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\base.py", line 1110, in _save_table
+    results = self._do_update(
+        base_qs,
+    ...<5 lines>...
+        returning_fields,
+    )
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\base.py", line 1213, in _do_update
+    return filtered._update(values, returning_fields)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 1327, in _update
+    return query.get_compiler(self.db).execute_returning_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 2140, in execute_returning_sql
+    row_count = self.execute_sql(ROW_COUNT)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 2111, in execute_sql
+    row_count = super().execute_sql(result_type)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: NOT NULL constraint failed: shop_product.subscription_options
+2026-02-08 16:41:44,433 ERROR django.server "POST /admin/shop/product/1/change/ HTTP/1.1" 500 233186
+2026-02-08 16:41:53,591 INFO django.server "GET /admin/shop/product/1/change/ HTTP/1.1" 200 21308
+2026-02-08 16:42:02,967 INFO django.utils.autoreload C:\Users\anas\Desktop\myproject\shop\models.py changed, reloading.
+2026-02-08 16:42:13,741 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-02-08 16:42:16,611 INFO django.server "GET /admin/shop/product/1/change/ HTTP/1.1" 200 21308
+2026-02-08 16:42:16,659 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-02-08 16:44:41,908 INFO django.server "POST /admin/shop/product/1/change/ HTTP/1.1" 302 0
+2026-02-08 16:44:42,046 INFO django.server "GET /admin/shop/product/ HTTP/1.1" 200 16247
+2026-02-08 16:44:42,113 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-02-08 16:44:42,167 INFO django.server "GET /static/admin/img/icon-yes-dark.svg HTTP/1.1" 304 0
+2026-02-08 16:44:42,252 INFO django.server "GET /media/products/b_replace_the_COLD_tex_dQalsjE.png HTTP/1.1" 200 1637818
+2026-02-08 16:44:45,090 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-08 16:44:45,391 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:44:46,359 INFO django.server "GET /shop/ HTTP/1.1" 200 36613
+2026-02-08 16:44:46,397 INFO django.server "GET /media/products/b_replace_the_COLD_tex_dQalsjE.png HTTP/1.1" 304 0
+2026-02-08 16:44:46,559 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:44:48,145 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 52225
+2026-02-08 16:44:48,348 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:45:03,421 INFO django.server "POST /shop/cart/add/1/ HTTP/1.1" 302 0
+2026-02-08 16:45:03,452 INFO django.server "GET /shop/ HTTP/1.1" 200 37589
+2026-02-08 16:45:03,494 INFO django.server "GET /media/products/b_replace_the_COLD_tex_dQalsjE.png HTTP/1.1" 304 0
+2026-02-08 16:45:03,647 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:45:05,331 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27814
+2026-02-08 16:45:05,377 INFO django.server "GET /media/products/b_replace_the_COLD_tex_dQalsjE.png HTTP/1.1" 304 0
+2026-02-08 16:45:05,469 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:45:10,500 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38779
+2026-02-08 16:45:10,683 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:45:22,221 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38779
+2026-02-08 16:45:22,459 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:45:31,241 INFO django.server "GET /shop/ HTTP/1.1" 200 36613
+2026-02-08 16:45:33,967 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 52225
+2026-02-08 16:45:34,136 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:46:04,138 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:46:16,835 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-08 16:46:17,065 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:46:47,097 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:47:17,072 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:47:47,079 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:48:16,693 INFO django.utils.autoreload C:\Users\anas\Desktop\myproject\shop\models.py changed, reloading.
+2026-02-08 16:49:06,809 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-02-08 16:49:09,905 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-08 16:49:10,150 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:49:10,631 INFO django.server "GET /shop/ HTTP/1.1" 200 36613
+2026-02-08 16:49:10,667 INFO django.server "GET /media/products/b_replace_the_COLD_tex_dQalsjE.png HTTP/1.1" 304 0
+2026-02-08 16:49:10,821 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:49:11,610 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 53702
+2026-02-08 16:49:11,654 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 51768
+2026-02-08 16:49:11,770 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:49:14,552 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 51768
+2026-02-08 16:49:16,231 INFO django.server "GET /shop/ HTTP/1.1" 200 36613
+2026-02-08 16:49:16,379 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:49:17,425 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 53702
+2026-02-08 16:49:17,601 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:49:47,593 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:50:17,598 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:50:47,593 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:51:17,596 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:51:47,598 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:52:17,592 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:52:29,835 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 45298
+2026-02-08 16:52:29,867 INFO django.server "GET /media/products/b_replace_the_COLD_tex_dQalsjE.png HTTP/1.1" 304 0
+2026-02-08 16:52:30,006 INFO django.server "GET /media/products/first.png HTTP/1.1" 200 386768
+2026-02-08 16:52:30,045 INFO django.server "GET /media/products/second.png HTTP/1.1" 200 2425428
+2026-02-08 16:52:30,066 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:52:38,824 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-08 16:52:39,012 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:52:40,197 INFO django.server "GET /shop/ HTTP/1.1" 200 36613
+2026-02-08 16:52:40,427 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:52:43,297 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 45298
+2026-02-08 16:52:43,484 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:53:01,840 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 47010
+2026-02-08 16:53:02,593 INFO django.server "GET /media/products/first.png HTTP/1.1" 200 386768
+2026-02-08 16:53:02,598 INFO django.server "GET /media/products/b_replace_the_COLD_tex_dQalsjE.png HTTP/1.1" 200 1637818
+2026-02-08 16:53:02,636 INFO django.server "GET /media/products/second.png HTTP/1.1" 200 2425428
+2026-02-08 16:53:02,752 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 48944
+2026-02-08 16:53:02,899 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:53:18,683 INFO django.server "POST /shop/cart/add/1/ HTTP/1.1" 302 0
+2026-02-08 16:53:18,718 INFO django.server "GET /shop/ HTTP/1.1" 200 37589
+2026-02-08 16:53:18,757 INFO django.server "GET /media/products/b_replace_the_COLD_tex_dQalsjE.png HTTP/1.1" 304 0
+2026-02-08 16:53:18,881 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:53:19,555 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27592
+2026-02-08 16:53:19,696 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:53:22,204 INFO django.server "GET /shop/cart/remove/1/?subscription_code=standard HTTP/1.1" 302 0
+2026-02-08 16:53:22,232 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 23402
+2026-02-08 16:53:22,376 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:53:23,098 INFO django.server "GET /shop/ HTTP/1.1" 200 36613
+2026-02-08 16:53:23,273 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:53:24,481 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 48390
+2026-02-08 16:53:24,526 INFO django.server "GET /media/products/first.png HTTP/1.1" 304 0
+2026-02-08 16:53:24,527 INFO django.server "GET /media/products/second.png HTTP/1.1" 304 0
+2026-02-08 16:53:24,661 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:53:25,818 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 46456
+2026-02-08 16:53:34,187 INFO django.server "POST /shop/cart/add/1/ HTTP/1.1" 302 0
+2026-02-08 16:53:34,234 INFO django.server "GET /shop/ HTTP/1.1" 200 37589
+2026-02-08 16:53:34,392 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:53:34,852 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27591
+2026-02-08 16:53:34,979 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:53:37,487 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38671
+2026-02-08 16:53:37,659 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:53:40,298 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 46444
+2026-02-08 16:53:40,322 INFO django.server "GET /shop/ HTTP/1.1" 200 36613
+2026-02-08 16:53:40,479 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:53:41,260 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 48378
+2026-02-08 16:53:41,478 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:54:07,101 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 48378
+2026-02-08 16:54:07,264 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:54:16,587 INFO django.server "GET /shop/login/ HTTP/1.1" 200 24973
+2026-02-08 16:54:21,153 INFO django.server "GET /shop/register/ HTTP/1.1" 200 26565
+2026-02-08 16:54:23,247 INFO django.server "GET /shop/dashboard/ HTTP/1.1" 200 28815
+2026-02-08 16:54:23,361 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:54:26,079 INFO django.server "GET /shop/login/ HTTP/1.1" 200 24973
+2026-02-08 16:54:29,707 INFO django.server "POST /shop/login/ HTTP/1.1" 302 0
+2026-02-08 16:54:30,214 INFO django.server "GET /shop/ HTTP/1.1" 200 37566
+2026-02-08 16:54:30,693 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:54:31,077 INFO django.server "GET /media/products/b_replace_the_COLD_tex_dQalsjE.png HTTP/1.1" 304 0
+2026-02-08 16:54:32,492 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 48378
+2026-02-08 16:54:32,891 INFO django.server "GET /media/products/second.png HTTP/1.1" 304 0
+2026-02-08 16:54:33,008 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:54:33,032 INFO django.server "GET /media/products/first.png HTTP/1.1" 304 0
+2026-02-08 16:54:42,938 INFO django.server "POST /shop/cart/add/1/ HTTP/1.1" 302 0
+2026-02-08 16:54:43,142 INFO django.server "GET /shop/ HTTP/1.1" 200 37589
+2026-02-08 16:54:43,658 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:54:45,662 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27591
+2026-02-08 16:54:46,071 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:54:53,365 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:55:03,144 INFO django.server "GET /shop/ HTTP/1.1" 200 36613
+2026-02-08 16:55:03,767 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:55:04,950 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 48378
+2026-02-08 16:55:05,403 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:55:23,544 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:55:35,432 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:55:53,541 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:56:05,423 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:56:23,535 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:56:35,474 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:56:53,534 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:57:05,417 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:57:23,534 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:57:35,419 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:58:04,545 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:58:05,976 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:58:35,496 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:59:04,552 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 16:59:05,991 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:00:04,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:00:06,604 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:01:04,562 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:01:07,567 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:01:18,565 INFO django.utils.autoreload C:\Users\anas\Desktop\myproject\shop\views.py changed, reloading.
+2026-02-08 17:02:49,901 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-02-08 17:02:53,612 INFO django.server "GET /about HTTP/1.1" 200 29722
+2026-02-08 17:02:53,991 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:03:09,963 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:03:24,549 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:03:54,548 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:04:11,416 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:04:24,549 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:04:54,537 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:05:11,946 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:05:24,544 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:05:54,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:06:12,962 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:06:24,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:06:54,544 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:07:12,968 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:07:24,544 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:07:54,550 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:08:12,957 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:08:24,550 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:09:04,538 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:09:12,932 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:10:04,537 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:10:12,899 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:11:04,546 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:11:12,941 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:12:04,545 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:12:12,951 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:13:04,550 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:13:12,578 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:14:04,543 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:14:13,030 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:15:04,538 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:15:12,519 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:16:04,550 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:16:12,520 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:17:04,554 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:17:12,943 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:18:04,538 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:18:12,914 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:19:04,551 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:19:12,895 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:20:04,542 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:20:13,566 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:21:04,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:21:12,933 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:22:04,543 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:22:12,920 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:23:04,553 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:23:12,565 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:24:04,550 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:24:12,912 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:25:04,558 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:25:13,246 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:26:04,545 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:26:12,929 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:27:04,553 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:27:12,959 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:27:25,989 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:27:54,543 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:28:12,542 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:28:24,535 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:28:54,549 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:29:12,926 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:29:24,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:29:54,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:30:12,827 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:30:24,542 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:30:54,538 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:31:12,913 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:31:24,539 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:31:54,536 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:32:12,905 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:32:24,541 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:33:04,552 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:33:12,909 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:34:04,544 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:34:12,878 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:35:04,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:35:12,913 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:36:04,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:36:12,818 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:37:04,560 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:37:12,913 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:37:44,355 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:37:54,546 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:38:12,971 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:38:24,542 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:38:54,543 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:39:12,905 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:39:24,545 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:39:54,536 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:40:12,907 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:40:24,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:40:54,534 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:41:12,937 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:41:24,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:41:54,535 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:42:13,444 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:42:24,549 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:43:04,544 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:43:12,965 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:44:04,551 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:44:13,365 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:45:04,546 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:45:12,927 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:45:24,011 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:45:54,537 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:46:14,155 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:46:24,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:46:54,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:47:12,765 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:47:24,546 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:47:54,537 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:48:13,274 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:48:24,541 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:48:54,545 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:49:13,227 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:49:24,537 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:49:47,558 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-08 17:49:48,047 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:50:12,858 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:50:18,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:50:48,048 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:51:13,035 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:51:18,539 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:51:48,538 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:52:13,543 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:52:18,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:52:48,539 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:53:12,882 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:53:18,538 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:53:48,538 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:54:12,862 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:55:04,544 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:56:04,549 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:57:04,549 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:58:04,559 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 17:59:04,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:00:04,556 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:01:04,547 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:02:04,545 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:03:04,555 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:04:04,546 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:05:04,537 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:06:04,547 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:07:04,539 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:08:04,547 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:09:04,556 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:09:25,292 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:09:48,554 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:10:18,543 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:11:04,538 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:12:04,553 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:13:04,544 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:14:04,556 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:15:04,551 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:15:18,921 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:15:48,536 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:17:04,560 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:18:04,568 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:19:04,549 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:20:04,557 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:21:04,553 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:22:04,549 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:23:04,553 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:24:04,555 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:24:09,345 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-08 18:24:09,660 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:24:10,538 INFO django.server "GET /download/ HTTP/1.1" 200 25630
+2026-02-08 18:24:10,740 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:24:13,072 INFO django.server "GET /contact HTTP/1.1" 200 48100
+2026-02-08 18:24:13,293 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:24:43,547 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:25:13,535 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:25:43,541 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:26:13,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:26:43,543 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:27:13,546 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:28:04,601 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:29:04,539 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:29:44,548 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:30:13,300 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:30:43,296 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:31:13,541 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:31:43,541 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:33:04,545 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:34:04,557 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:35:04,636 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:36:04,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:37:04,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:38:05,180 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:39:04,555 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:40:04,543 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:41:04,551 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:42:04,572 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:43:04,549 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:44:04,547 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:45:04,552 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:46:04,551 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:47:04,548 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:48:04,542 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:49:04,539 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:50:04,546 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:51:04,577 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:52:04,545 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:53:04,545 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:54:04,544 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:55:04,539 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:56:04,556 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:57:04,550 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:58:04,550 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 18:59:04,550 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:00:04,549 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:01:04,544 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:02:04,548 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:03:04,552 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:04:04,545 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:05:04,541 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:05:41,653 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:05:43,294 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:06:13,557 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:07:04,554 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:08:04,598 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:09:04,562 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:10:04,546 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:11:04,553 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:12:04,538 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:13:04,545 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:14:04,560 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:15:04,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:16:04,553 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:17:04,548 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:18:04,554 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:19:04,551 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:20:04,569 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:21:04,565 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:22:04,558 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:23:04,550 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:24:04,554 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:25:04,546 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:26:04,561 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:27:04,552 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 19:28:04,556 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:12:42,012 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 50035
+2026-02-08 20:12:44,829 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:13:14,499 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:13:44,545 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:14:14,624 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:14:44,143 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:15:14,253 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:15:44,558 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:16:14,193 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:17:12,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:18:12,853 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:19:12,525 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:20:12,465 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:21:12,574 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:22:12,456 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:23:12,167 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:24:12,081 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:25:12,557 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:26:12,740 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:27:13,550 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:28:12,730 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:29:12,463 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:30:12,076 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:31:12,052 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:32:13,042 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:33:12,072 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:34:12,543 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:35:12,566 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:35:51,924 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:36:14,397 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:36:44,749 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:37:46,262 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:38:46,588 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:39:47,686 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:40:48,631 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:41:49,283 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:42:50,686 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:43:51,403 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:44:38,462 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:44:44,426 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:45:14,520 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:46:12,074 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:47:12,443 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:48:12,442 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:48:44,440 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:49:14,524 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:50:12,260 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:51:12,431 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:52:12,486 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:53:12,386 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:54:12,505 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:55:12,502 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:56:12,547 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:57:12,407 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:58:12,624 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:59:00,916 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:59:13,052 INFO django.server "POST /shop/cart/add/1/ HTTP/1.1" 302 0
+2026-02-08 20:59:13,872 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:59:14,609 INFO django.server "GET /shop/ HTTP/1.1" 200 37588
+2026-02-08 20:59:15,323 INFO django.server "GET /media/products/b_replace_the_COLD_tex_dQalsjE.png HTTP/1.1" 304 0
+2026-02-08 20:59:15,327 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:59:16,829 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 30320
+2026-02-08 20:59:17,086 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:59:47,090 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:59:47,768 INFO django.server "GET /shop/cart/remove/1/?subscription_code=lifetime HTTP/1.1" 302 0
+2026-02-08 20:59:48,006 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 28571
+2026-02-08 20:59:48,712 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 20:59:49,767 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38671
+2026-02-08 20:59:51,652 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:00:21,666 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:00:51,730 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:01:21,729 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:01:51,800 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:02:21,677 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:02:51,671 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:03:22,019 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:03:52,067 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:04:21,856 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:04:35,275 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27591
+2026-02-08 21:04:36,612 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:04:47,241 INFO django.server "GET /shop/cart/remove/1/?subscription_code=standard HTTP/1.1" 302 0
+2026-02-08 21:04:48,065 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 23402
+2026-02-08 21:04:48,505 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:05:03,340 INFO django.server "GET /contact HTTP/1.1" 200 48100
+2026-02-08 21:05:03,996 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:05:34,393 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:06:04,180 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:06:34,013 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:07:00,306 INFO django.server "GET /contact HTTP/1.1" 200 48100
+2026-02-08 21:07:01,540 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:07:02,463 INFO django.server "GET /download/ HTTP/1.1" 200 25630
+2026-02-08 21:07:03,542 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:07:05,689 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-08 21:07:06,210 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:07:08,158 INFO django.server "GET /about HTTP/1.1" 200 29722
+2026-02-08 21:07:08,676 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:07:12,299 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-08 21:07:12,862 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:20:35,029 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-08 21:20:35,372 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:20:36,933 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-08 21:20:37,076 INFO django.server "GET /media/products/b_replace_the_COLD_tex_dQalsjE.png HTTP/1.1" 304 0
+2026-02-08 21:20:37,221 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:20:38,265 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 50035
+2026-02-08 21:20:38,389 INFO django.server "GET /media/products/second.png HTTP/1.1" 304 0
+2026-02-08 21:20:38,390 INFO django.server "GET /media/products/first.png HTTP/1.1" 304 0
+2026-02-08 21:20:38,487 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:21:08,549 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:21:38,544 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:22:08,539 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:22:38,547 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:23:08,541 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:23:38,536 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:25:04,544 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:26:04,544 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:27:04,541 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:28:04,544 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:28:13,680 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:28:38,544 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:29:09,051 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-08 21:29:11,296 INFO django.server "GET /admin/ HTTP/1.1" 200 13195
+2026-02-08 21:29:11,939 WARNING django.request Not Found: /favicon.ico
+2026-02-08 21:29:11,940 WARNING django.server "GET /favicon.ico HTTP/1.1" 404 5204
+2026-02-08 21:29:14,125 INFO django.server "GET /admin/shop/product/ HTTP/1.1" 200 16024
+2026-02-08 21:29:14,218 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-02-08 21:29:15,609 INFO django.server "GET /admin/shop/product/1/change/ HTTP/1.1" 200 24220
+2026-02-08 21:29:15,717 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-02-08 21:29:15,875 INFO django.server "GET /static/admin/js/inlines.js HTTP/1.1" 200 15628
+2026-02-08 21:29:15,929 INFO django.server "GET /static/admin/img/inline-delete.svg HTTP/1.1" 200 651
+2026-02-09 15:11:22,718 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-02-09 15:11:28,067 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-09 15:11:28,169 INFO django.server "GET /static/logo.png HTTP/1.1" 304 0
+2026-02-09 15:11:28,214 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-09 15:11:28,299 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-09 15:11:28,994 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:11:29,087 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:11:29,152 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:11:30,559 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 15:11:30,620 INFO django.server "GET /media/products/b_replace_the_COLD_tex_dQalsjE.png HTTP/1.1" 304 0
+2026-02-09 15:11:30,787 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:11:31,762 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 50035
+2026-02-09 15:11:31,820 INFO django.server "GET /media/products/first.png HTTP/1.1" 304 0
+2026-02-09 15:11:31,823 INFO django.server "GET /media/products/second.png HTTP/1.1" 304 0
+2026-02-09 15:11:32,049 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:11:57,413 INFO django.server "POST /shop/cart/add/1/ HTTP/1.1" 302 0
+2026-02-09 15:11:57,447 INFO django.server "GET /shop/ HTTP/1.1" 200 37588
+2026-02-09 15:11:57,637 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:11:59,241 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 30304
+2026-02-09 15:11:59,430 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:12:00,113 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38990
+2026-02-09 15:12:00,364 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:12:03,792 INFO shop.views Checkout submitted by user 1
+2026-02-09 15:12:03,808 INFO shop.views Order created SA7BI-ORDER-HVB08-AKQC9-TU6WM for user 1
+2026-02-09 15:12:06,516 INFO django.server "POST /shop/checkout/ HTTP/1.1" 302 0
+2026-02-09 15:12:06,592 INFO django.server "GET /shop/order/placed/SA7BI-ORDER-HVB08-AKQC9-TU6WM/ HTTP/1.1" 200 26850
+2026-02-09 15:12:06,865 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:12:36,877 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:12:44,488 WARNING shop.views Order SA7BI-ORDER-HVB08-AKQC9-TU6WM already has a ticket channel: 1470421993714090055
+2026-02-09 15:12:44,491 WARNING django.request Conflict: /api/discord/order/create/
+2026-02-09 15:12:44,492 WARNING django.server "POST /api/discord/order/create/ HTTP/1.1" 409 34
+2026-02-09 15:13:06,866 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:13:36,867 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:15:48,217 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-09 15:15:50,279 INFO django.server "GET /static/logo.png HTTP/1.1" 304 0
+2026-02-09 15:15:50,332 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:15:53,745 INFO django.server "GET /contact HTTP/1.1" 200 48100
+2026-02-09 15:15:54,971 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:15:56,573 INFO django.server "GET /about HTTP/1.1" 200 29722
+2026-02-09 15:15:56,889 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:15:59,227 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 15:15:59,495 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:15:59,817 INFO django.server "GET /media/products/b_replace_the_COLD_tex_dQalsjE.png HTTP/1.1" 304 0
+2026-02-09 15:16:01,463 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 50035
+2026-02-09 15:16:02,039 INFO django.server "GET /media/products/first.png HTTP/1.1" 304 0
+2026-02-09 15:16:02,471 INFO django.server "GET /media/products/second.png HTTP/1.1" 304 0
+2026-02-09 15:16:02,819 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:16:32,500 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:16:59,345 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 49302
+2026-02-09 15:16:59,726 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:17:31,072 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:18:00,330 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:18:30,468 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:19:00,287 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:19:35,162 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:20:00,268 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:20:30,668 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:21:31,951 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:22:43,974 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:23:34,133 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:23:37,379 INFO django.server "POST /shop/cart/add/1/ HTTP/1.1" 302 0
+2026-02-09 15:23:37,710 INFO django.server "GET /shop/ HTTP/1.1" 200 37588
+2026-02-09 15:23:38,520 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:23:39,088 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27584
+2026-02-09 15:23:39,431 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:24:03,368 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27589
+2026-02-09 15:24:03,789 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:24:06,939 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27589
+2026-02-09 15:24:07,322 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:24:37,309 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:25:08,271 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:25:28,675 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27589
+2026-02-09 15:25:29,289 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:25:29,677 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27589
+2026-02-09 15:25:30,180 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:25:31,807 INFO django.server "GET /download/ HTTP/1.1" 200 25630
+2026-02-09 15:25:32,648 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:25:35,202 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27589
+2026-02-09 15:25:35,566 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:25:42,365 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38667
+2026-02-09 15:25:43,492 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:26:13,380 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:27:22,306 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-02-09 15:27:33,386 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:28:10,766 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:28:45,573 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:28:45,819 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38667
+2026-02-09 15:28:46,703 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:29:01,116 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27589
+2026-02-09 15:29:01,940 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:29:33,058 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:29:33,384 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27589
+2026-02-09 15:29:34,226 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:29:35,089 INFO django.server "GET /admin/ HTTP/1.1" 200 13195
+2026-02-09 15:29:35,167 INFO django.server "GET /static/admin/css/base.css HTTP/1.1" 304 0
+2026-02-09 15:29:35,172 INFO django.server "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+2026-02-09 15:29:35,172 INFO django.server "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+2026-02-09 15:29:35,258 INFO django.server "GET /static/admin/css/dashboard.css HTTP/1.1" 304 0
+2026-02-09 15:29:35,260 INFO django.server "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+2026-02-09 15:29:35,267 INFO django.server "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+2026-02-09 15:29:35,285 INFO django.server "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+2026-02-09 15:29:35,309 INFO django.server "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+2026-02-09 15:29:35,313 INFO django.server "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
+2026-02-09 15:29:35,573 WARNING django.request Not Found: /favicon.ico
+2026-02-09 15:29:35,574 WARNING django.server "GET /favicon.ico HTTP/1.1" 404 5204
+2026-02-09 15:29:37,330 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27589
+2026-02-09 15:29:38,058 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:29:38,876 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27589
+2026-02-09 15:29:39,361 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:29:48,936 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-09 15:29:49,241 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:29:50,723 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 15:29:50,984 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:29:51,994 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 49302
+2026-02-09 15:29:52,248 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:29:59,583 INFO django.server "POST /shop/cart/add/1/ HTTP/1.1" 302 0
+2026-02-09 15:29:59,638 INFO django.server "GET /shop/ HTTP/1.1" 200 37588
+2026-02-09 15:29:59,856 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:30:00,309 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27589
+2026-02-09 15:30:00,456 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:30:01,837 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38667
+2026-02-09 15:30:02,014 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:30:09,705 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:30:11,593 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27589
+2026-02-09 15:30:11,904 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:30:12,662 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27589
+2026-02-09 15:30:12,997 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:30:15,266 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27589
+2026-02-09 15:30:15,549 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:30:32,111 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:30:46,200 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:31:02,120 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:31:16,288 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:31:32,107 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:31:45,988 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:31:46,828 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27589
+2026-02-09 15:31:47,349 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:32:02,107 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:32:06,729 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 15:32:07,206 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:32:32,002 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:32:37,266 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:32:44,470 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 49302
+2026-02-09 15:32:45,006 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:32:45,755 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27589
+2026-02-09 15:32:46,081 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:32:48,481 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38667
+2026-02-09 15:32:48,798 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:33:02,118 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:33:19,204 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:33:32,114 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:33:48,813 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:33:49,363 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38736
+2026-02-09 15:33:49,685 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:33:57,726 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38736
+2026-02-09 15:33:58,106 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:34:02,127 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:34:25,142 INFO django.server "GET /about HTTP/1.1" 200 29722
+2026-02-09 15:34:25,454 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:34:27,865 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27589
+2026-02-09 15:34:28,583 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:34:31,697 INFO django.server "POST /shop/cart/update/1/ HTTP/1.1" 302 0
+2026-02-09 15:34:31,880 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 22422
+2026-02-09 15:34:32,110 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:34:35,720 INFO django.server "GET /about HTTP/1.1" 200 29722
+2026-02-09 15:34:37,525 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-09 15:34:37,888 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:34:45,869 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 15:34:46,145 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:34:47,356 INFO django.server "GET /shop/cart/add/1/?next=/shop/ HTTP/1.1" 302 0
+2026-02-09 15:34:47,558 INFO django.server "GET /shop/ HTTP/1.1" 200 37588
+2026-02-09 15:34:47,814 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:34:49,306 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27582
+2026-02-09 15:34:49,558 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:34:57,115 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:35:20,194 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:35:32,930 INFO django.utils.autoreload C:\Users\anas\Desktop\myproject\shop\views.py changed, reloading.
+2026-02-09 15:35:55,024 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-02-09 15:35:55,439 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:35:57,123 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:35:57,519 INFO django.server "GET /about HTTP/1.1" 200 29722
+2026-02-09 15:35:58,106 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:35:58,790 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 15:35:59,230 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:35:59,863 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38736
+2026-02-09 15:36:00,046 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:36:00,935 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 15:36:01,062 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:36:03,284 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 49302
+2026-02-09 15:36:03,426 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:36:05,971 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 15:36:06,091 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:36:07,070 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 49302
+2026-02-09 15:36:07,271 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:36:11,154 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27582
+2026-02-09 15:36:11,629 INFO django.server "POST /shop/cart/add/1/ HTTP/1.1" 302 0
+2026-02-09 15:36:11,656 INFO django.server "GET /shop/ HTTP/1.1" 200 37588
+2026-02-09 15:36:11,802 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:36:11,876 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:36:12,676 INFO django.server "GET /shop/cart/remove/1/?subscription_code= HTTP/1.1" 302 0
+2026-02-09 15:36:12,895 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 23402
+2026-02-09 15:36:13,215 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:36:13,493 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 30331
+2026-02-09 15:36:13,721 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:36:14,901 INFO django.server "GET /about HTTP/1.1" 200 29722
+2026-02-09 15:36:15,239 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:36:16,344 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 15:36:16,616 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:36:17,591 INFO django.server "GET /shop/cart/add/1/?next=/shop/ HTTP/1.1" 302 0
+2026-02-09 15:36:17,800 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 50504
+2026-02-09 15:36:18,140 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:36:29,244 INFO django.server "GET /about HTTP/1.1" 200 29722
+2026-02-09 15:36:29,388 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:36:30,083 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 15:36:30,200 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:36:32,033 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-09 15:36:32,281 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:36:48,209 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:36:48,846 INFO django.server "GET /about HTTP/1.1" 200 29722
+2026-02-09 15:36:48,972 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:36:49,391 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 15:36:49,607 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:36:51,255 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-09 15:36:51,509 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:37:18,231 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:37:21,513 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:37:48,282 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:37:51,512 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:38:18,255 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:38:21,515 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:38:48,251 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:38:51,508 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:39:18,625 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:39:21,514 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:39:48,200 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:39:51,514 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:40:17,497 INFO django.utils.autoreload C:\Users\anas\Desktop\myproject\shop\views.py changed, reloading.
+2026-02-09 15:40:18,208 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:41:55,181 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-02-09 15:41:59,210 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 49302
+2026-02-09 15:42:00,145 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:42:03,449 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 15:42:03,876 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:42:05,520 INFO django.server "GET /shop/cart/add/1/?next=/shop/ HTTP/1.1" 302 0
+2026-02-09 15:42:06,115 INFO django.server "GET /shop/ HTTP/1.1" 200 37588
+2026-02-09 15:42:06,415 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:42:06,848 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27576
+2026-02-09 15:42:07,456 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:42:22,127 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:42:37,175 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:42:39,235 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38739
+2026-02-09 15:42:39,574 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:42:57,111 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:43:10,198 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:43:21,515 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:43:40,232 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:43:52,116 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:44:10,199 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:44:22,111 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:44:40,674 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:44:57,115 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:45:10,625 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:45:34,742 INFO django.utils.autoreload C:\Users\anas\Desktop\myproject\shop\views.py changed, reloading.
+2026-02-09 15:47:12,198 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-02-09 15:47:13,144 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38736
+2026-02-09 15:47:14,324 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:47:17,058 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 15:47:17,898 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:47:19,152 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27589
+2026-02-09 15:47:19,970 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:47:21,006 INFO django.server "GET /shop/cart/remove/1/?subscription_code=trial HTTP/1.1" 302 0
+2026-02-09 15:47:21,206 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 23402
+2026-02-09 15:47:21,870 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:47:23,612 INFO django.server "GET /about HTTP/1.1" 200 29722
+2026-02-09 15:47:23,909 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:47:24,123 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 15:47:24,476 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:47:25,540 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 49302
+2026-02-09 15:47:26,799 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:47:28,756 INFO django.server "POST /shop/cart/add/1/ HTTP/1.1" 302 0
+2026-02-09 15:47:28,961 INFO django.server "GET /shop/ HTTP/1.1" 200 37588
+2026-02-09 15:47:29,297 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:47:31,047 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27602
+2026-02-09 15:47:31,471 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:47:45,194 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38743
+2026-02-09 15:47:45,653 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:47:57,114 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:48:16,171 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:48:31,054 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38804
+2026-02-09 15:48:31,486 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:48:41,437 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38809
+2026-02-09 15:48:41,919 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:48:55,056 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38809
+2026-02-09 15:48:55,416 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:48:57,115 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:49:26,185 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:49:56,846 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:49:57,121 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:50:20,336 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27602
+2026-02-09 15:50:20,701 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:50:23,611 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38809
+2026-02-09 15:50:24,300 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:50:35,688 INFO django.server "GET /shop/cart/remove/1/?subscription_code=standard HTTP/1.1" 302 0
+2026-02-09 15:50:35,986 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 23402
+2026-02-09 15:50:36,263 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:50:38,536 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 15:50:38,888 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:50:39,749 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 49302
+2026-02-09 15:50:40,124 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:50:49,122 INFO django.server "POST /shop/cart/add/1/ HTTP/1.1" 302 0
+2026-02-09 15:50:49,381 INFO django.server "GET /shop/ HTTP/1.1" 200 37588
+2026-02-09 15:50:49,654 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:50:50,199 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27602
+2026-02-09 15:50:50,527 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:50:53,737 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38811
+2026-02-09 15:50:54,245 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:50:57,118 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:51:25,229 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:51:55,222 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:51:57,123 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:52:08,174 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38811
+2026-02-09 15:52:09,038 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:52:38,629 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:52:57,148 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:53:08,671 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:53:38,694 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:53:57,115 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:54:08,908 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:54:38,675 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:54:57,112 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:55:09,038 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:55:39,598 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:55:57,113 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:56:09,159 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:56:09,360 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-09 15:56:09,607 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:56:10,927 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 15:56:11,083 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:56:12,832 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 49302
+2026-02-09 15:56:13,031 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:56:15,257 INFO django.server "POST /shop/cart/add/1/ HTTP/1.1" 302 0
+2026-02-09 15:56:15,293 INFO django.server "GET /shop/ HTTP/1.1" 200 37588
+2026-02-09 15:56:15,459 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:56:15,902 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 30331
+2026-02-09 15:56:16,107 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:56:23,048 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 39265
+2026-02-09 15:56:23,256 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:56:25,467 INFO shop.views Checkout submitted by user 1
+2026-02-09 15:56:25,487 INFO shop.views Order created SA7BI-ORDER-51LCN-0X1IR-MJT9V for user 1
+2026-02-09 15:56:27,866 INFO django.server "POST /shop/checkout/ HTTP/1.1" 302 0
+2026-02-09 15:56:27,940 INFO django.server "GET /shop/order/placed/SA7BI-ORDER-51LCN-0X1IR-MJT9V/ HTTP/1.1" 200 26850
+2026-02-09 15:56:28,125 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:56:51,102 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 22422
+2026-02-09 15:56:51,335 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:57:10,595 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:57:21,874 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:57:23,186 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 15:57:23,486 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:57:24,989 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 49302
+2026-02-09 15:57:25,273 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:57:26,863 INFO django.server "POST /shop/cart/add/1/ HTTP/1.1" 302 0
+2026-02-09 15:57:26,892 INFO django.server "GET /shop/ HTTP/1.1" 200 37588
+2026-02-09 15:57:27,079 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:57:27,525 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27602
+2026-02-09 15:57:27,847 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:57:28,491 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38811
+2026-02-09 15:57:28,810 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:57:30,737 INFO shop.views Checkout submitted by user 1
+2026-02-09 15:57:30,752 INFO shop.views Order created SA7BI-ORDER-Q9TY5-9K1T2-MV721 for user 1
+2026-02-09 15:57:32,880 INFO django.server "POST /shop/checkout/ HTTP/1.1" 302 0
+2026-02-09 15:57:32,991 INFO django.server "GET /shop/order/placed/SA7BI-ORDER-Q9TY5-9K1T2-MV721/ HTTP/1.1" 200 26850
+2026-02-09 15:57:33,245 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:57:42,864 INFO django.server "POST /api/discord/order/paid/ HTTP/1.1" 200 75
+2026-02-09 15:57:42,882 INFO django.server "POST /api/discord/activation/create/ HTTP/1.1" 200 129
+2026-02-09 15:58:03,248 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:58:03,894 INFO django.server "GET /admin/ HTTP/1.1" 200 13195
+2026-02-09 15:58:05,892 INFO django.server "GET /admin/downloads/activationcode/ HTTP/1.1" 200 14667
+2026-02-09 15:58:05,933 INFO django.server "GET /static/admin/css/changelists.css HTTP/1.1" 304 0
+2026-02-09 15:58:05,939 INFO django.server "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+2026-02-09 15:58:05,944 INFO django.server "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+2026-02-09 15:58:05,944 INFO django.server "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+2026-02-09 15:58:05,949 INFO django.server "GET /static/admin/js/core.js HTTP/1.1" 304 0
+2026-02-09 15:58:05,951 INFO django.server "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+2026-02-09 15:58:05,961 INFO django.server "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+2026-02-09 15:58:05,966 INFO django.server "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+2026-02-09 15:58:05,967 INFO django.server "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 304 0
+2026-02-09 15:58:05,969 INFO django.server "GET /static/admin/img/icon-no.svg HTTP/1.1" 304 0
+2026-02-09 15:58:05,971 INFO django.server "GET /static/admin/img/search.svg HTTP/1.1" 304 0
+2026-02-09 15:58:05,989 INFO django.server "GET /static/admin/js/filters.js HTTP/1.1" 304 0
+2026-02-09 15:58:06,092 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-02-09 15:58:06,122 INFO django.server "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 304 0
+2026-02-09 15:58:11,582 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 15:58:15,055 INFO django.server "GET /admin/downloads/activationcode/1/change/ HTTP/1.1" 200 15222
+2026-02-09 15:58:15,096 INFO django.server "GET /static/admin/css/forms.css HTTP/1.1" 304 0
+2026-02-09 15:58:15,098 INFO django.server "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+2026-02-09 15:58:15,103 INFO django.server "GET /static/admin/css/widgets.css HTTP/1.1" 304 0
+2026-02-09 15:58:15,109 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-02-09 15:58:15,113 INFO django.server "GET /static/admin/js/change_form.js HTTP/1.1" 304 0
+2026-02-09 15:58:20,295 INFO django.server "GET /admin/downloads/activationcode/ HTTP/1.1" 200 14667
+2026-02-09 15:58:22,837 INFO django.server "GET /admin/downloads/activationcode/1/change/ HTTP/1.1" 200 15222
+2026-02-09 15:58:22,897 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-02-09 15:58:26,463 INFO django.server "GET /admin/downloads/activationcode/ HTTP/1.1" 200 14667
+2026-02-09 15:59:12,598 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:00:13,597 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:00:33,753 INFO django.utils.autoreload C:\Users\anas\Desktop\myproject\shop\discord_integration.py changed, reloading.
+2026-02-09 16:01:08,003 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-02-09 16:01:14,230 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:01:15,499 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-09 16:01:15,890 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:01:16,538 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 16:01:16,710 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:01:17,933 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 54196
+2026-02-09 16:01:18,114 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:01:21,707 INFO django.server "POST /shop/cart/add/1/ HTTP/1.1" 302 0
+2026-02-09 16:01:21,746 INFO django.server "GET /shop/ HTTP/1.1" 200 37588
+2026-02-09 16:01:21,893 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:01:23,481 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 54196
+2026-02-09 16:01:23,718 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:01:25,965 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27602
+2026-02-09 16:01:26,148 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:01:27,605 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38811
+2026-02-09 16:01:27,760 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:01:30,518 INFO shop.views Checkout submitted by user 1
+2026-02-09 16:01:30,536 INFO shop.views Order created SA7BI-ORDER-6RUOY-OIS7T-0ZSSC for user 1
+2026-02-09 16:01:32,929 INFO django.server "POST /shop/checkout/ HTTP/1.1" 302 0
+2026-02-09 16:01:33,089 INFO django.server "GET /shop/order/placed/SA7BI-ORDER-6RUOY-OIS7T-0ZSSC/ HTTP/1.1" 200 26850
+2026-02-09 16:01:33,300 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:01:44,591 INFO django.server "POST /api/discord/order/paid/ HTTP/1.1" 200 75
+2026-02-09 16:01:44,657 INFO django.server "POST /api/discord/activation/create/ HTTP/1.1" 200 150
+2026-02-09 16:01:53,949 INFO django.server "GET /admin/ HTTP/1.1" 200 13195
+2026-02-09 16:01:56,139 INFO django.server "GET /admin/downloads/activationcode/ HTTP/1.1" 200 15088
+2026-02-09 16:01:56,192 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-02-09 16:01:58,718 INFO django.server "GET /admin/downloads/activationcode/2/change/ HTTP/1.1" 200 15242
+2026-02-09 16:01:58,763 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-02-09 16:02:02,993 INFO django.server "GET /admin/downloads/activationcode/ HTTP/1.1" 200 15088
+2026-02-09 16:02:03,038 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-02-09 16:02:15,159 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:03:16,604 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:03:59,899 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:04:09,024 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:04:38,801 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:05:09,035 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:05:39,085 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:06:08,635 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:06:39,090 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:07:09,651 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:07:39,170 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:08:36,720 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:08:39,056 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-09 16:08:39,585 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:08:40,413 INFO django.server "GET /about HTTP/1.1" 200 29722
+2026-02-09 16:08:40,650 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:08:41,211 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 16:08:41,364 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:08:44,089 INFO django.server "GET /shop/dashboard/ HTTP/1.1" 200 36184
+2026-02-09 16:08:44,242 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:08:51,109 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 16:08:51,297 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:08:53,169 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 54833
+2026-02-09 16:08:53,585 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:08:55,250 INFO django.server "POST /shop/cart/add/1/ HTTP/1.1" 302 0
+2026-02-09 16:08:55,280 INFO django.server "GET /shop/ HTTP/1.1" 200 37588
+2026-02-09 16:08:55,455 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:08:57,198 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27589
+2026-02-09 16:08:57,511 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:08:58,397 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38803
+2026-02-09 16:08:58,483 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:08:58,605 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:09:01,482 INFO shop.views Checkout submitted by user 1
+2026-02-09 16:09:01,519 INFO shop.views Order created SA7BI-ORDER-TBXBD-ZDVCZ-NCZ7U for user 1
+2026-02-09 16:09:03,727 INFO django.server "POST /shop/checkout/ HTTP/1.1" 302 0
+2026-02-09 16:09:03,762 INFO django.server "GET /shop/order/placed/SA7BI-ORDER-TBXBD-ZDVCZ-NCZ7U/ HTTP/1.1" 200 26850
+2026-02-09 16:09:03,898 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:09:09,089 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:09:21,697 INFO django.server "GET /shop/dashboard/ HTTP/1.1" 200 37892
+2026-02-09 16:09:21,929 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:09:29,845 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 22422
+2026-02-09 16:09:30,062 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:09:30,612 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 16:09:30,835 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:09:32,450 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 54833
+2026-02-09 16:09:32,638 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:09:34,213 INFO django.server "POST /shop/cart/add/1/ HTTP/1.1" 302 0
+2026-02-09 16:09:34,244 INFO django.server "GET /shop/ HTTP/1.1" 200 37588
+2026-02-09 16:09:34,417 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:09:35,065 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27589
+2026-02-09 16:09:35,208 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:09:36,067 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38803
+2026-02-09 16:09:36,255 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:09:37,985 INFO shop.views Checkout submitted by user 1
+2026-02-09 16:09:38,001 INFO shop.views Order created SA7BI-ORDER-P5OYF-1CRI0-KWLSE for user 1
+2026-02-09 16:09:38,680 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:09:40,424 INFO django.server "POST /shop/checkout/ HTTP/1.1" 302 0
+2026-02-09 16:09:40,502 INFO django.server "GET /shop/order/placed/SA7BI-ORDER-P5OYF-1CRI0-KWLSE/ HTTP/1.1" 200 26850
+2026-02-09 16:09:40,719 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:10:07,675 WARNING shop.views Order SA7BI-ORDER-P5OYF-1CRI0-KWLSE already has a ticket channel: 1470436483142779083
+2026-02-09 16:10:07,677 WARNING django.request Conflict: /api/discord/order/create/
+2026-02-09 16:10:07,678 WARNING django.server "POST /api/discord/order/create/ HTTP/1.1" 409 34
+2026-02-09 16:10:07,924 INFO django.server - Broken pipe from ('127.0.0.1', 58787)
+2026-02-09 16:10:09,043 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:10:10,736 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:10:27,125 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27602
+2026-02-09 16:10:27,617 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:10:28,774 INFO django.server "GET /shop/cart/remove/1/?subscription_code=lifetime HTTP/1.1" 302 0
+2026-02-09 16:10:29,001 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 23402
+2026-02-09 16:10:29,730 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:10:31,200 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 22422
+2026-02-09 16:10:31,214 INFO django.server "GET /shop/dashboard/ HTTP/1.1" 200 39600
+2026-02-09 16:10:31,348 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:10:31,774 INFO django.server "GET / HTTP/1.1" 200 85217
+2026-02-09 16:10:32,010 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:10:34,076 INFO django.server "GET /shop/checkout/ HTTP/1.1" 302 0
+2026-02-09 16:10:34,313 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 23586
+2026-02-09 16:11:02,268 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:11:04,605 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:11:32,119 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:11:35,185 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:11:55,007 INFO django.server "GET /shop/ HTTP/1.1" 200 36612
+2026-02-09 16:11:55,191 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:11:56,542 INFO django.server "GET /shop/product/efwfwef/ HTTP/1.1" 200 54833
+2026-02-09 16:11:56,773 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:12:02,365 INFO django.server "POST /shop/cart/add/1/ HTTP/1.1" 302 0
+2026-02-09 16:12:02,394 INFO django.server "GET /shop/ HTTP/1.1" 200 37588
+2026-02-09 16:12:02,541 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:12:04,555 INFO django.server "GET /shop/cart/ HTTP/1.1" 200 27602
+2026-02-09 16:12:04,723 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:12:05,360 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:12:06,233 INFO django.server "GET /shop/checkout/ HTTP/1.1" 200 38811
+2026-02-09 16:12:06,531 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:12:10,358 INFO shop.views Checkout submitted by user 1
+2026-02-09 16:12:10,371 INFO shop.views Order created SA7BI-ORDER-E0NT9-PQESX-VENTQ for user 1
+2026-02-09 16:12:12,765 INFO django.server "POST /shop/checkout/ HTTP/1.1" 302 0
+2026-02-09 16:12:12,823 INFO django.server "GET /shop/order/placed/SA7BI-ORDER-E0NT9-PQESX-VENTQ/ HTTP/1.1" 200 26850
+2026-02-09 16:12:12,994 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:12:35,309 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:12:43,106 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:13:05,137 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:13:06,110 INFO django.server "POST /api/discord/order/paid/ HTTP/1.1" 200 75
+2026-02-09 16:13:06,134 INFO django.server "POST /api/discord/activation/create/ HTTP/1.1" 200 150
+2026-02-09 16:13:13,119 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:13:35,500 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:13:42,993 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:14:05,136 INFO django.server "GET /shop/wishlist/count/ HTTP/1.1" 200 12
+2026-02-09 16:14:14,155 ERROR django.request Internal Server Error: /shop/wishlist/count/
+Traceback (most recent call last):
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 246, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: django_session
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\anas\Desktop\myproject\shop\views.py", line 1012, in wishlist_count
+    if not request.user.is_authenticated:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\utils\functional.py", line 251, in inner
+    self._setup()
+    ~~~~~~~~~~~^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\utils\functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ~~~~~~~~~~~~~~~^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\auth\middleware.py", line 40, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ~~~~~~~~^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\auth\middleware.py", line 20, in get_user
+    request._cached_user = auth.get_user(request)
+                           ~~~~~~~~~~~~~^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\auth\__init__.py", line 311, in get_user
+    user_id = _get_user_session_key(request)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\auth\__init__.py", line 95, in _get_user_session_key
+    return get_user_model()._meta.pk.to_python(request.session[SESSION_KEY])
+                                               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 55, in __getitem__
+    return self._session[key]
+           ^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 251, in _get_session
+    self._session_cache = self.load()
+                          ~~~~~~~~~^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\db.py", line 55, in load
+    s = self._get_session_from_db()
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\contrib\sessions\backends\db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        session_key=self.session_key, expire_date__gt=timezone.now()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 635, in get
+    num = len(clone)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 372, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\anas\Desktop\myproject\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: django_session
+2026-02-09 16:14:14,175 ERROR django.server "GET /shop/wishlist/count/ HTTP/1.1" 500 189067

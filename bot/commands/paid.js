@@ -3,16 +3,24 @@ const { postToDjango } = require('../utils/api');
 const { updateTicketStatus } = require('../utils/ticket');
 
 const formatOrderId = (value) => (value || '').toString().toUpperCase();
+const sanitizeOrderId = (value) => {
+    if (!value) {
+        return '';
+    }
+    const trimmed = value.toString().trim();
+    const match = trimmed.match(/[a-z0-9-]{6,}/i);
+    return match ? match[0].toUpperCase() : '';
+};
 
 module.exports = {
     name: 'pay',
     description: 'Mark an order as paid',
     async execute(message, args, context) {
         const { config, client } = context;
-        const orderId = args[0];
+        const orderId = sanitizeOrderId(args.join(' '));
 
         if (!orderId) {
-            return message.reply('Usage: !pay <order_id>');
+            return message.reply('Usage: !pay <order_id> (example: SA7BI-ORDER-XXXXX-XXXXX-XXXXX)');
         }
 
         const isAdmin = message.member.permissions.has(PermissionFlagsBits.Administrator);

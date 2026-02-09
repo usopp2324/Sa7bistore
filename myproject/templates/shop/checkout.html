@@ -168,6 +168,8 @@
           <div class="flex justify-between text-sm">
             <div>
               <p class="text-white font-medium">{{ item.product.name }}</p>
+              {% if item.subscription_label != "Forever" %} <p class="text-gray-400 text-xs">Plan: {{ item.subscription_label }} </p>{% endif %}
+              <p class="text-gray-400 text-xs">Duration: {% if item.subscription_duration_days %} {{ item.subscription_duration_days }} Days {% else %} Forever {% endif %} </p>
               <p class="text-gray-400 text-xs">Qty: {{ item.quantity }}</p>
             </div>
             <p class="text-right font-semibold">€{{ item.subtotal }}</p>

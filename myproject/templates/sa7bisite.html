@@ -64,15 +64,6 @@
         height: 1px;
         background: linear-gradient(to right, #64748b, transparent);
     }
-    /* Gradient Dots Background */
-
-    .gradient-dots {
-        background-color: #0a0a0f;
-        background-image: radial-gradient(circle at 50% 50%, transparent 1.5px, #0a0a0f 0 8px, transparent 8px), radial-gradient(circle at 50% 50%, transparent 1.5px, #0a0a0f 0 8px, transparent 8px), radial-gradient(circle at 50% 50%, #ef4444, transparent 60%), radial-gradient(circle at 50% 50%, #000000, transparent 60%), radial-gradient(circle at 50% 50%, #ef4444, transparent 60%);
-        background-size: 10px 17.32px, 10px 17.32px, 200% 200%, 200% 200%, 200% 200%;
-        background-position: 0px 0px, 5px 8.66px, 0% 0%, 100% 100%, 50% 50%;
-        animation: moveDots 20s linear infinite, hueRotate 6s linear infinite;
-    }
 
     .home-dots {
         position: relative;
@@ -212,6 +203,23 @@
         }
     }
 
+    @media (max-width: 768px) {
+        .hero-canvas-wrap,
+        .cursor-glow,
+        .meteor {
+            display: none !important;
+        }
+
+        .home-dots {
+            background-attachment: scroll;
+        }
+
+        .home-dots::before,
+        .home-dots::after {
+            opacity: 0.12;
+        }
+    }
+
     .home-dots > * {
         position: relative;
         z-index: 1;
@@ -248,11 +256,6 @@
         opacity: 1;
     }
 
-    .parallax-layers,
-    .parallax-layer {
-        display: none;
-    }
-
     .parallax-target {
         will-change: transform;
         transform: translate3d(0, 0, 0);
@@ -275,23 +278,6 @@
         z-index: 2;
     }
 
-    @keyframes moveDots {
-        0% {    
-            background-position: 0px 0px, 5px 8.66px, 0% 0%, 100% 100%, 50% 50%;
-        }
-        100% {
-            background-position: 0px 0px, 5px 8.66px, 800% 400%, 1000% -400%, -1200% -600%;
-        }
-    }
-
-    @keyframes hueRotate {
-        0% {
-            filter: hue-rotate(0deg);
-        }
-        100% {
-            filter: hue-rotate(360deg);
-        }
-    }
 
     @keyframes auroraSweep {
         0% {
@@ -403,21 +389,6 @@
         display: block;
         animation: fadeIn 0.3s ease-out;
     }
-    /* Rank Card */
-
-    .rank-card {
-        transition: all 0.2s ease;
-    }
-
-    .rank-card:hover {
-        transform: scale(1.05);
-    }
-
-    .rank-card.selected {
-        ring: 2px;
-        ring-color: #ef4444;
-        background: rgba(239, 68, 68, 0.2);
-    }
     /* Input Focus */
 
     input:focus,
@@ -425,83 +396,6 @@
         outline: none;
         border-color: #8b5cf6;
         box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
-    }
-    /* Checkbox Custom */
-
-    .custom-checkbox {
-        appearance: none;
-        width: 20px;
-        height: 20px;
-        border: 2px solid #4b5563;
-        border-radius: 4px;
-        cursor: pointer;
-        position: relative;
-    }
-
-    .custom-checkbox:checked {
-        background: linear-gradient(135deg, #8b5cf6, #ec4899);
-        border-color: transparent;
-    }
-
-    .custom-checkbox:checked::after {
-        content: '✓';
-        position: absolute;
-        color: white;
-        font-size: 14px;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-    /* Radio Custom */
-
-    .custom-radio {
-        appearance: none;
-        width: 20px;
-        height: 20px;
-        border: 2px solid #4b5563;
-        border-radius: 50%;
-        cursor: pointer;
-        position: relative;
-    }
-
-    .custom-radio:checked {
-        border-color: #8b5cf6;
-    }
-
-    .custom-radio:checked::after {
-        content: '';
-        position: absolute;
-        width: 10px;
-        height: 10px;
-        background: linear-gradient(135deg, #8b5cf6, #ec4899);
-        border-radius: 50%;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-
-    /* Control Panels (Hotkeys / Precision / Features) */
-    .control-panel {
-        background: linear-gradient(180deg, #1b1b22 0%, #14141a 100%);
-        border-radius: 14px;
-        border: 1px solid rgba(239, 68, 68, 0.18);
-        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.03);
-        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-        animation: panel-rise 0.6s ease both;
-    }
-
-    .control-panel:hover {
-        transform: translateY(-6px);
-        border-color: rgba(239, 68, 68, 0.45);
-        box-shadow: 0 18px 36px rgba(239, 68, 68, 0.15), 0 12px 28px rgba(0, 0, 0, 0.5);
-    }
-
-    .control-panel:nth-child(2) { animation-delay: 0.08s; }
-    .control-panel:nth-child(3) { animation-delay: 0.16s; }
-
-    @keyframes panel-rise {
-        0% { opacity: 0; transform: translateY(16px); }
-        100% { opacity: 1; transform: translateY(0); }
     }
 
     .control-title {
@@ -1510,6 +1404,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
         if (prefersReduced) {
             return;
         }
@@ -1582,7 +1477,6 @@
         }
 
         const home = document.querySelector(".home-dots");
-        const parallaxLayers = home ? home.querySelectorAll(".parallax-layer") : [];
         const parallaxTargets = home ? home.querySelectorAll("[data-parallax]") : [];
         let targetX = 0;
         let targetY = 0;
@@ -1594,11 +1488,6 @@
             currentX += (targetX - currentX) * 0.08;
             currentY += (targetY - currentY) * 0.08;
 
-            parallaxLayers.forEach((layer) => {
-                const depth = Number(layer.dataset.depth) || 0.05;
-                layer.style.transform = `translate3d(${currentX * depth}px, ${currentY * depth}px, 0)`;
-            });
-
             parallaxTargets.forEach((target) => {
                 const depth = Number(target.dataset.parallax) || 0.02;
                 target.style.transform = `translate3d(${currentX * depth}px, ${currentY * depth}px, 0)`;
@@ -1607,7 +1496,7 @@
             rafId = window.requestAnimationFrame(animateParallax);
         };
 
-        if (home) {
+        if (home && !isMobile) {
             let lastClientX = null;
             let lastClientY = null;
             let glowCurrentX = null;
@@ -1710,8 +1599,9 @@
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
         const canvas = document.getElementById("heroCanvas");
-        if (!canvas || prefersReduced) {
+        if (!canvas || prefersReduced || isMobile) {
             return;
         }
 

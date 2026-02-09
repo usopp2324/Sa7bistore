@@ -81,6 +81,8 @@ def send_order_ticket(order, order_items):
                 'name': item.product.name,
                 'quantity': item.quantity,
                 'price': str(item.price),
+                'subscription_label': item.subscription_label,
+                'duration_days': item.subscription_duration_days,
                 'image_url': _build_image_url(getattr(item.product, 'image', None)),
             }
             for item in order_items
@@ -145,6 +147,8 @@ def register_pending_order(order, order_items):
                 'name': item.product.name,
                 'quantity': item.quantity,
                 'price': str(item.price),
+                'subscription_label': item.subscription_label,
+                'duration_days': item.subscription_duration_days,
                 'image_url': _build_image_url(getattr(item.product, 'image', None)),
             }
             for item in order_items

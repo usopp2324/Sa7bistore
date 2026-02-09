@@ -15,6 +15,7 @@ class Product(models.Model):
     slug = models.SlugField(max_length=255, unique=True, blank=True, db_index=True)
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    subscription_options = models.JSONField(blank=True, default=list, null=True)
     image = models.ImageField(upload_to='products/')
     is_active = models.BooleanField(default=True)
     sellauth_product_id = models.PositiveBigIntegerField(blank=True, null=True)
@@ -36,6 +37,8 @@ class Product(models.Model):
             while Product.objects.filter(slug=slug).exclude(pk=self.pk).exists():
                 slug = f"{base_slug}-{uuid.uuid4().hex[:6]}"
             self.slug = slug
+        if self.subscription_options is None:
+            self.subscription_options = []
         super().save(*args, **kwargs)
 
 
@@ -121,6 +124,9 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     quantity = models.IntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)  # Price at purchase time
+    subscription_code = models.CharField(max_length=50, blank=True)
+    subscription_label = models.CharField(max_length=120, blank=True)
+    subscription_duration_days = models.PositiveIntegerField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.product.name} x{self.quantity} (Order {self.order.order_id})"

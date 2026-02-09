@@ -13,7 +13,7 @@ module.exports = {
         }
 
         const [commandName, ...args] = message.content.slice(prefix.length).trim().split(/\s+/);
-        const command = client.commands.get(commandName ? .toLowerCase());
+        const command = client.commands.get(commandName.toLowerCase());
         if (!command) {
             return;
         }
