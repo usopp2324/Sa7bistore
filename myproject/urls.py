@@ -27,7 +27,6 @@ urlpatterns = [
     path('privacy', views.privacy, name='privacy'),
     path('terms', views.terms, name='terms'),
     path('contact', views.contact, name='contact'),
-    path('contact_us.html', views.contact_us, name='contact_us'),
     path('api/contact/submit', views.submit_contact, name='submit_contact'),
     path('messages', views.messages_dashboard, name='messages_dashboard'),
     path('messages/<int:message_id>', views.message_detail, name='message_detail'),

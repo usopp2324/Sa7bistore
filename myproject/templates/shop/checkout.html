@@ -117,15 +117,15 @@
 
           <div id="paypal-warning" class="mt-4 p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-100 text-sm hidden">
             <p class="font-semibold">PayPal checkout is unavailable for one or more items.</p>
-            <p class="text-xs mt-1">Please choose Discord or update product SellAuth IDs in the admin panel.</p>
+            <p class="text-xs mt-1">Please choose Discord.</p>
           </div>
 
           <div id="payment-steps" class="mt-4 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-100 text-sm">
             <p class="font-semibold mb-2">Next steps after placing the order:</p>
             <ul class="list-disc list-inside space-y-1 text-xs">
               <li>Join our Discord server</li>
-              <li>Contact an admin with your Order ID</li>
-              <li>Arrange payment details via DM</li>
+              <li>Access your ticket</li>
+              <li>Arrange payment details with an Admin</li>
               <li>Your order is processed after payment is confirmed</li>
             </ul>
           </div>
@@ -135,7 +135,7 @@
         <div class="flex items-start gap-3">
           <input type="checkbox" id="terms" name="terms" checked class="w-5 h-5 mt-1 rounded border-dark-600">
           <label for="terms" class="text-sm text-gray-400">
-            I agree to the <a href="#" class="text-primary hover:text-secondary">Terms and Conditions</a> and <a href="#" class="text-primary hover:text-secondary">Privacy Policy</a>
+            I agree to the <a href="{% url 'terms' %}" class="text-primary hover:text-secondary">Terms and Conditions</a> and <a href="{% url 'privacy' %}" class="text-primary hover:text-secondary">Privacy Policy</a>
           </label>
         </div>
 

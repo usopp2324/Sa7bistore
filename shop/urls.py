@@ -48,8 +48,6 @@ urlpatterns = [
     # Review likes
     path('review/<int:review_id>/like/', views.toggle_review_like, name='toggle_review_like'),
     path('review/add/<int:product_id>/', views.add_review, name='add_review'),
-    # Desktop download page
-    path('download-pc/', views.download_pc, name='download_pc'),
     
 ]
     

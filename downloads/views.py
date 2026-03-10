@@ -1,12 +1,17 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import FileResponse, Http404, JsonResponse
-from .models import AppVersion, ActivationCode
+from .models import AppVersion, ActivationCode, TriggerbotConfig
 from django.conf import settings
 import os
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
+def latest_version(request):
+    version = AppVersion.objects.filter(is_active=True, is_latest=True).first()
+    if not version:
+        return JsonResponse({'error': 'No active versions found'}, status=404)
+    return JsonResponse({'version': version.version_number})
 
 def download_latest(request):
     version = AppVersion.objects.filter(is_active=True, is_latest=True).first()
@@ -15,9 +20,9 @@ def download_latest(request):
         version = AppVersion.objects.filter(is_active=True).order_by('-release_date').first()
     if not version:
         # No releases yet - show friendly message
-        return render(request, 'downloads/download.html', {'version': None, 'others': []})
+        return render(request, 'downloads/download.html', {'version': None, 'others': [], 'current_category': 'downloads'})
     others = AppVersion.objects.filter(is_active=True).exclude(pk=version.pk)
-    return render(request, 'downloads/download.html', {'version': version, 'others': others})
+    return render(request, 'downloads/download.html', {'version': version, 'others': others, 'current_category': 'downloads'})
 
 
 def download_version(request, version):
@@ -45,7 +50,6 @@ def download_file(request, version):
     # Optional: set content type for exe
     response['Content-Type'] = 'application/vnd.microsoft.portable-executable'
     return response
-
 
 @csrf_exempt
 def verify_activation(request):
@@ -75,3 +79,12 @@ def verify_activation(request):
             return JsonResponse({'status': 'error', 'message': 'Invalid code'}, status=404)
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
+
+
+def triggerbot_configs(request):
+    """List available triggerbot config files stored under MEDIA_ROOT/triggerbot_configs/.
+    Files are exposed via MEDIA_URL. If the directory doesn't exist an empty list is shown.
+    """
+    configs = TriggerbotConfig.objects.all()
+
+    return render(request, 'downloads/configs.html', {'configs': configs, 'current_category': 'configs'})

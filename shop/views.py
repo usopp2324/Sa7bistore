@@ -1249,45 +1249,6 @@ def wishlist_view(request):
     items = request.user.wishlist.select_related('product')
     return render(request, 'shop/wishlist.html', {'items': items})
 
-
-def download_pc(request):
-    """Render Windows desktop download page with available releases."""
-    from downloads.models import AppVersion
-
-    versions_pc = []
-    versions_qs = AppVersion.objects.filter(is_active=True).order_by('-release_date')
-    for version in versions_qs:
-        download_url = version.exe_file.url if version.exe_file else ''
-        versions_pc.append(
-            {
-                'version': version.version_number,
-                'title': version.name,
-                'changelog': version.description or 'Release notes are being updated.',
-                'published_at': timezone.make_aware(
-                    datetime.combine(version.release_date, datetime.min.time())
-                )
-                if hasattr(version, 'release_date') else timezone.now(),
-                'filesize': version.file_size or 'Unknown',
-                'release_type': 'Latest' if version.is_latest else 'Release',
-                'badge_color': 'bg-green-600 text-white' if version.is_latest else 'bg-gray-600 text-white',
-                'checksum': '',
-                'arch_urls': {
-                    'x64': download_url,
-                    'x86': '',
-                },
-                'download_url': download_url,
-            }
-        )
-
-    context = {
-        'versions_pc': versions_pc,
-    }
-    return render(request, 'shop/download_pc.html', context)
-
-
- 
-
-
 # ═══════════════════════════════════════════════════════════════════════════
 # DISCORD OAUTH VIEWS
 # ═══════════════════════════════════════════════════════════════════════════

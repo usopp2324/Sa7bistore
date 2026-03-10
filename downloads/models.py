@@ -60,3 +60,10 @@ class ActivationCode(models.Model):
 
     def __str__(self):
         return self.code
+    
+class TriggerbotConfig(models.Model):
+    name = models.CharField(max_length=100)
+    file = models.FileField(upload_to='triggerbot_configs/')
+
+    def __str__(self):
+        return self.name

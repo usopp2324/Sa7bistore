@@ -18,15 +18,21 @@
     <div class="text-center mb-12 animate-fade-in">
       <div class="inline-block mb-4">
         <span class="px-4 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-medium">
-          <i class="fa-brands fa-windows mr-2"></i>Windows Desktop App
+          <svg class="w-4 h-4 inline-block mr-2" viewBox="0 0 640 640" fill="currentColor"><path d="M96 157.7L279.6 132.4L279.6 309.8L96 309.8L96 157.7zM96 482.3L279.6 507.6L279.6 332.4L96 332.4L96 482.3zM299.8 510.3L544 544L544 332.4L299.8 332.4L299.8 510.3zM299.8 129.7L299.8 309.8L544 309.8L544 96L299.8 129.7z"/></svg>Windows Desktop App
         </span>
       </div>
       <h1 class="text-5xl md:text-6xl font-bold  mb-4">Sa7bi <span class="gradient-text">Desktop</span></h1>
       <p class="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
         Experience seamless performance with the official Sa7bi desktop application. Optimized for Windows, packed with features.
       </p>
+      <div class="mt-6">
+        <nav class="inline-flex left-50 rounded-xl bg-dark-800/60 border border-dark-700 p-1 gap-1" role="tablist">
+              <a href="{% url 'downloads:download_latest' %}" class="px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-primary to-secondary text-white">Loader</a>
+              <a href="{% url 'downloads:triggerbot_configs' %}" class="px-4 py-2 rounded-lg text-sm font-semibold text-gray-300 hover:bg-dark-700">Triggerbot Configs</a>
+        </nav>
+      </div>
     </div>
-
+    
     {% if version %}
       <!-- Latest Version Card (Highlighted) -->
       <div class="mb-12 animate-slide-up" style="animation-delay: 0.2s;">
@@ -43,8 +49,8 @@
                 <div class="mb-6">
                   <div class="text-4xl font-bold gradient-text mb-2">{{ version.name }}</div>
                   <div class="flex items-center gap-4 text-gray-400">
-                    <span><i class="fa-solid fa-tag mr-2"></i>v{{ version.version_number }}</span>
-                    <span><i class="fa-solid fa-calendar mr-2"></i>{{ version.release_date|date:'F j, Y' }}</span>
+                    <span><svg class="w-4 h-4 inline-block mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20.59 13.41l-7.17-7.17A2 2 0 0012.17 6H6a2 2 0 00-2 2v6.17c0 .53.21 1.04.59 1.41l7.17 7.17c.78.78 2.05.78 2.83 0l6-6c.78-.78.78-2.05 0-2.83zM7.5 9A1.5 1.5 0 117 7.5 1.5 1.5 0 017.5 9z"/></svg>v{{ version.version_number }}</span>
+                    <span><svg class="w-4 h-4 inline-block mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 10h10v8H7z" opacity="0.2"/><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zm0 14H5V9h14v9z"/></svg>{{ version.release_date|date:'F j, Y' }}</span>
                   </div>
                 </div>
 
@@ -74,22 +80,22 @@
 
               <!-- Download Section -->
               <div class="flex flex-col justify-center items-center md:items-end gap-6">
-                <a href="{% url 'downloads:download_file' version.version_number %}" class="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary to-primary-dark rounded-xl font-bold text-white text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 cursor-pointer overflow-hidden">
+                  <a href="{% url 'downloads:download_file' version.version_number %}" class="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary to-primary-dark rounded-xl font-bold text-white text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 cursor-pointer overflow-hidden">
                   <div class="absolute inset-0  translate-y-12 group-hover:translate-y-0 transition-transform duration-300"></div>
-                  <i class="fa-solid fa-download mr-3 text-xl"></i>
+                  <svg class="w-5 h-5 mr-3 text-xl" fill="currentColor" viewBox="0 0 640 640"><path d="M352 96C352 78.3 337.7 64 320 64C302.3 64 288 78.3 288 96L288 306.7L246.6 265.3C234.1 252.8 213.8 252.8 201.3 265.3C188.8 277.8 188.8 298.1 201.3 310.6L297.3 406.6C309.8 419.1 330.1 419.1 342.6 406.6L438.6 310.6C451.1 298.1 451.1 277.8 438.6 265.3C426.1 252.8 405.8 252.8 393.3 265.3L352 306.7L352 96zM160 384C124.7 384 96 412.7 96 448L96 480C96 515.3 124.7 544 160 544L480 544C515.3 544 544 515.3 544 480L544 448C544 412.7 515.3 384 480 384L433.1 384L376.5 440.6C345.3 471.8 294.6 471.8 263.4 440.6L206.9 384L160 384zM464 440C477.3 440 488 450.7 488 464C488 477.3 477.3 488 464 488C450.7 488 440 477.3 440 464C440 450.7 450.7 440 464 440z"/></svg>
                   <span class="relative">Download Now</span>
                 </a>
 
                 <div class="text-center text-sm text-gray-400">
-                  <i class="fa-solid fa-shield-halved mr-2 text-green-500"></i>Safe & Verified
+                  <svg class="w-4 h-4 inline-block mr-2 text-green-500" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2l7 3v5c0 5-3.8 9.7-7 12-3.2-2.3-7-7-7-12V5l7-3z"/></svg>Safe & Verified
                 </div>
 
                 <div class="w-full bg-dark-700/30 border border-gray-700 rounded-lg p-4">
                   <div class="text-xs text-gray-500 mb-2 uppercase tracking-wider">System Requirements</div>
                   <ul class="text-sm text-gray-300 space-y-1">
-                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Windows 10 or later</li>
-                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i>1GB RAM minimum</li>
-                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i> {% if version.exe_file %}
+                    <li><svg class="w-4 h-4 inline-block mr-2 text-green-500" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>Windows 10 or later</li>
+                    <li><svg class="w-4 h-4 inline-block mr-2 text-green-500" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>1GB RAM minimum</li>
+                    <li><svg class="w-4 h-4 inline-block mr-2 text-green-500" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg> {% if version.exe_file %}
                         {{ version.exe_file.size|filesizeformat }}
                       {% elif version.file_size %}
                         {{ version.file_size }}
@@ -146,7 +152,7 @@
               <i class="fa-solid fa-inbox text-5xl text-yellow-500"></i>
             </div>
             <h2 class="text-2xl font-bold mb-2">No Downloads Available Yet</h2>
-            <p class="text-gray-400 mb-6">App versions are managed in the admin panel. Check back soon for the official release!</p>
+            <p class="text-gray-400 mb-6">App versions are managed by admins. Check back soon for the official release!</p>
             
           </div>
         </div>

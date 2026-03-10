@@ -19,6 +19,13 @@
       </a>
     </div>
 
+    <div class="mb-6">
+      <nav class="flex items-center gap-2 bg-dark-800/60 p-1 rounded-lg">
+        <a href="{% url 'downloads:download_latest' %}" class="px-3 py-1 rounded-md text-sm font-medium bg-dark-700 hover:bg-dark-700/80">Downloads</a>
+        <a href="{% url 'downloads:triggerbot_configs' %}" class="px-3 py-1 rounded-md text-sm font-medium bg-dark-700 hover:bg-dark-700/80">Triggerbot Configs</a>
+      </nav>
+    </div>
+
     <!-- Version Card -->
     <div class="bg-dark-800 border border-gray-800 rounded-2xl p-8 shadow-2xl animate-slide-up">
       <div class="mb-8 pb-8 border-b border-gray-700">

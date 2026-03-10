@@ -17,12 +17,6 @@ def home(request):
     reviews = qs[:8]
     return render(request, 'sa7bisite.html', {'reviews': reviews})
 
-
-def contact_us(request):
-    """Render the Contact Us page (old orbital design)."""
-    return render(request, 'contact_us.html')
-
-
 def contact(request):
     """Render the modern Contact page."""
     return render(request, 'contact.html')

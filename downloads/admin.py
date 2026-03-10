@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AppVersion, ActivationCode
+from .models import AppVersion, ActivationCode, TriggerbotConfig
 from django.forms import ModelForm
 from django.core.exceptions import ValidationError
 
@@ -40,3 +40,8 @@ class AppVersionAdmin(admin.ModelAdmin):
 class ActivationCodeAdmin(admin.ModelAdmin):
     list_display = ('code', 'used', 'hardware_id')
     search_fields = ('code', 'hardware_id')
+
+@admin.register(TriggerbotConfig)
+class TriggerbotConfigAdmin(admin.ModelAdmin):
+    list_display = ('name', 'file')
+    search_fields = ('name',)
