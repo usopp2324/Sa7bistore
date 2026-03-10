@@ -12,6 +12,8 @@ def home(request):
     qs = Review.objects.select_related('product', 'user').order_by('-created_at')
     if hasattr(Review, 'approved'):
         qs = qs.filter(approved=True)
+    # Exclude reviews for account category products
+    qs = qs.exclude(product__category__name__iexact='accounts').exclude(product__category__name__iexact='account')
     reviews = qs[:8]
     return render(request, 'sa7bisite.html', {'reviews': reviews})
 

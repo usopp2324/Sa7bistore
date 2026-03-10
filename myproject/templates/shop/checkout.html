@@ -266,7 +266,7 @@
   const taxAmount = document.getElementById('tax-amount');
   const totalAmount = document.getElementById('total-amount');
   const sellauthCart = JSON.parse(document.getElementById('sellauth-cart').textContent || '[]');
-  const missingSellauthItems = {{ missing_sellauth_items|yesno:"true,false" }};
+  const missingSellauthItems = {{ missing_sellauth_items| yesno:"true,false" }};
   const shopId = 214492;
   const baseSubtotal = subtotalAmount ? Number(subtotalAmount.dataset.subtotal || 0) : 0;
   const paypalTax = 2.0;

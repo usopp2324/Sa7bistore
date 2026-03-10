@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+  <div class="tournament-form glass p-6 rounded-lg">
+    <h2 class="text-2xl font-bold">Report result for {{ match.team_a }} vs {{ match.team_b }}</h2>
+    <form method="post" class="space-y-3 mt-4">
+      {% csrf_token %}
+      <label>Score
+        <input name="score" required placeholder="e.g. 13-11">
+      </label>
+      <label>Proof URL
+        <input name="proof" placeholder="Link to screenshot or vod">
+      </label>
+      <div class="flex justify-end">
+        <button type="submit" class="btn-submit">Submit Report</button>
+      </div>
+    </form>
+  </div>
+</div>
+<link rel="stylesheet" href="{% static 'tournaments/css/tournaments.css' %}">
+{% endblock %}

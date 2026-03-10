@@ -124,7 +124,7 @@ async function finalizePendingOrder({ client, config, member, order }) {
 }
 
 async function processPendingOrders(client, config) {
-  if (!client || !config?.guildId) {
+  if (!client || !config.guildId) {
     return;
   }
   const state = readStore();
@@ -140,7 +140,7 @@ async function processPendingOrders(client, config) {
   }
 
   for (const order of state.pending) {
-    if (!order?.discord_id) {
+    if (!order.discord_id) {
       continue;
     }
     const member = await guild.members.fetch(order.discord_id).catch(() => null);

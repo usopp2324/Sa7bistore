@@ -1,25 +1,46 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils import timezone
 from django.utils.text import slugify
 import uuid
 import secrets
 import string
 from django.conf import settings
 from decimal import Decimal
-from django.core.validators import MinValueValidator, MaxValueValidator
 
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True, blank=True, db_index=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        """Auto-generate a unique slug from the category name if not provided."""
+        if not self.slug:
+            base_slug = slugify(self.name) or 'category'
+            slug = base_slug
+            # Ensure uniqueness
+            while Category.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f"{base_slug}-{uuid.uuid4().hex[:6]}"
+            self.slug = slug
+        super().save(*args, **kwargs)
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, blank=True, db_index=True)
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='products')
     subscription_options = models.JSONField(blank=True, default=list, null=True)
     image = models.ImageField(upload_to='products/')
     is_active = models.BooleanField(default=True)
     sellauth_product_id = models.PositiveBigIntegerField(blank=True, null=True)
     sellauth_variant_id = models.PositiveBigIntegerField(blank=True, null=True)
+    stock = models.PositiveIntegerField(blank=True, help_text='Available stock quantity. 0 means unlimited for non-account products.', null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -27,6 +48,20 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def display_price(self):
+        """Return the cheapest price among base price and subscription options."""
+        cheapest = self.price
+        options = self.subscription_options or []
+        for option in options:
+            option_price = option.get('price')
+            try:
+                price_value = Decimal(str(option_price))
+            except (TypeError, ValueError, ArithmeticError):
+                continue
+            if price_value < cheapest:
+                cheapest = price_value
+        return cheapest
 
     def save(self, *args, **kwargs):
         """Auto-generate a unique slug from the product name if not provided."""
@@ -39,8 +74,10 @@ class Product(models.Model):
             self.slug = slug
         if self.subscription_options is None:
             self.subscription_options = []
+        # Set stock to 1 for account category products
+        if self.category and self.category.name.lower() in ['accounts', 'account']:
+            self.stock = 1
         super().save(*args, **kwargs)
-
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
@@ -204,13 +241,9 @@ class ContactMessage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        ordering = ['-created_at']
-        verbose_name = 'Contact Message'
-        verbose_name_plural = 'Contact Messages'
 
-    def __str__(self):
-        return f"{self.name} - {self.subject} ({self.created_at.strftime('%Y-%m-%d %H:%M')})"
+# Crosshair feature models
+
 
 
 class UserProfile(models.Model):

@@ -352,6 +352,17 @@
         </div>
       </div>
     </div>
+    <div class="mt-6">
+          <nav class="inline-flex left-50 rounded-xl bg-dark-800/60 border border-dark-700 p-1 gap-1" role="tablist">
+            {% for cat in categories %}
+              {% if cat.slug == current_category %}
+                <a href="?category={{ cat.slug }}" class="px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-primary to-secondary text-white">{{ cat.name }}</a>
+              {% else %}
+                <a href="?category={{ cat.slug }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-gray-300 hover:bg-dark-700">{{ cat.name }}</a>
+              {% endif %}
+            {% endfor %}
+          </nav>
+        </div>
   </header>
 
   {% if products %}
@@ -388,14 +399,27 @@
           <div class="flex flex-col">
             <span class="text-xs text-gray-500 uppercase tracking-wide">Price</span>
             <div class="text-2xl font-black gradient-text">€{{ product.display_price }}</div>
+            {% if product.category and product.category.name|lower == 'accounts' or product.category.name|lower == 'account' %}
+              <span class="text-xs text-green-400 mt-1">1 in stock</span>
+            {% elif product.stock is not None %}
+              {% if product.stock > 0 %}
+                <span class="text-xs text-green-400 mt-1">{{ product.stock }} in stock</span>
+              {% else %}
+                <span class="text-xs text-red-400 mt-1">Out of stock</span>
+              {% endif %}
+            {% endif %}
           </div>
           <div class="flex items-center gap-3">
-            <a href="{% url 'shop:add_to_cart' product.id %}?next={% url 'shop:shop_list' %}" class="btn-buy inline-flex items-center gap-2 bg-gradient-to-r from-primary to-secondary text-white px-5 py-2 rounded-xl font-semibold hover:shadow-lg">
-              <span>Add</span>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-              </svg>
-            </a>
+            {% if product.stock is None or product.stock > 0 %}
+              <a href="{% url 'shop:add_to_cart' product.id %}?next={% url 'shop:shop_list' %}" class="btn-buy inline-flex items-center gap-2 bg-gradient-to-r from-primary to-secondary text-white px-5 py-2 rounded-xl font-semibold hover:shadow-lg">
+                <span>Add</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+              </a>
+            {% else %}
+              <span class="text-xs text-gray-500">Out of stock</span>
+            {% endif %}
           </div>
         </div>
       </div>

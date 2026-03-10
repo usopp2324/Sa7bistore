@@ -13,7 +13,7 @@
 
     const { patchComponentsV2 } = require('./utils/componentsV2');
 
-    const { buildOpenTicketButton, createTicketChannel } = require('./utils/ticket');
+    const { createTicketChannel } = require('./utils/ticket');
     const { registerPendingOrder } = require('./utils/pending');
 
     const config = {
@@ -123,16 +123,13 @@
 
             try {
                 const user = dmUser || await client.users.fetch(payload.discord_id);
-                const row = buildOpenTicketButton(payload.order_id);
                 const embeddm = new EmbedBuilder()
                     .setColor(0x5865f2)
                     .setTitle('New Order Ticket Created')
                     .setDescription(`***Your order ticket is ready. Click below to open it anytime:***\n${channel.toString()}\n\n**If you have any questions, please contact support.**`)
                     .setFooter({ text: 'Thank you for your order!' });
 
-                await user.send({
-                    embeds: [embeddm],
-                });
+                await user.send({ embeds: [embeddm] });
             } catch (error) {
                 console.warn('Unable to DM user about ticket:', error.message);
             }

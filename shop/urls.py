@@ -50,5 +50,6 @@ urlpatterns = [
     path('review/add/<int:product_id>/', views.add_review, name='add_review'),
     # Desktop download page
     path('download-pc/', views.download_pc, name='download_pc'),
+    
 ]
     

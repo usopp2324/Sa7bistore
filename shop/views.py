@@ -14,9 +14,9 @@ from django.db.models import Count, Q
 from django.conf import settings
 from .models import Product, Order, OrderItem, UserProfile, generate_order_id
 from downloads.models import ActivationCode, generate_activation_code
-from .models import Wishlist, Review
+from .models import Wishlist, Review, Category
 from .models import ReviewLike
-from .discord_integration import send_order_ticket, check_discord_membership
+from .discord_integration import send_order_ticket, check_discord_membership, register_pending_order
 from django.db.models import Avg, Count
 from decimal import Decimal
 import uuid
@@ -24,6 +24,8 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from datetime import timedelta, datetime
+from django.views.generic import ListView, DetailView
+ 
 
 logger = logging.getLogger(__name__)
 
@@ -184,20 +186,6 @@ def _get_subscription_meta(product, subscription_code):
     return label, duration_days, option.get('code') or subscription_code, unit_price
 
 
-def _get_cheapest_price(product):
-    cheapest = product.price
-    options = product.subscription_options or []
-    for option in options:
-        option_price = option.get('price')
-        try:
-            price_value = Decimal(str(option_price))
-        except (TypeError, ValueError, ArithmeticError):
-            continue
-        if price_value < cheapest:
-            cheapest = price_value
-    return cheapest
-
-
 def _build_cart_items(cart):
     cart_items = []
     total_price = Decimal('0.00')
@@ -222,6 +210,10 @@ def _build_cart_items(cart):
             missing_cart_keys.append(cart_key)
             continue
 
+        # Limit quantity to 1 for account category products
+        if product.category.name.lower() == 'account':
+            quantity = min(quantity, 1)
+
         normalized_code = subscription_code
         if normalized_code and not _get_subscription_option(product, normalized_code):
             normalized_code = ''
@@ -237,6 +229,19 @@ def _build_cart_items(cart):
         product = product_cache.get(int(product_id_str))
         if not product:
             continue
+
+        # Limit quantity to 1 for account category products
+        if product.category.name.lower() == 'account':
+            if quantity > 1:
+                quantity = 1
+                normalized_cart[cart_key] = quantity
+                cart_updated = True
+
+        # Check stock availability
+        if product.stock is not None and product.stock > 0 and quantity > product.stock:
+            quantity = product.stock
+            normalized_cart[cart_key] = quantity
+            cart_updated = True
 
         subscription_label, subscription_duration_days, normalized_code, unit_price = _get_subscription_meta(
             product,
@@ -261,10 +266,20 @@ def _build_cart_items(cart):
 
 def shop_list(request):
     """Display all active products"""
-    products = Product.objects.filter(is_active=True)
+    category = (request.GET.get('category') or 'services').strip().lower()
+    category = Category.objects.filter(slug=category).first() if category else None
+    categories = Category.objects.all()
+
+    products = Product.objects.filter(is_active=True, category=category)
     for product in products:
-        product.display_price = _get_cheapest_price(product)
-    return render(request, 'shop/shop.html', {'products': products})
+        pass  # display_price is now calculated dynamically
+        
+    context = {
+        'current_category': category.slug or 'services',
+        'categories': categories,
+        'products': products,
+    }
+    return render(request, 'shop/shop.html', context)
 
 
 def cart_view(request):
@@ -287,10 +302,15 @@ def cart_view(request):
     }
     return render(request, 'shop/cart.html', context)
 
-@login_required
+@login_required(login_url='shop:login')
 def add_to_cart(request, product_id):
     """Add product to cart"""
     product = get_object_or_404(Product, id=product_id, is_active=True)
+    
+    # Check stock availability
+    if product.stock is not None and product.stock > 0 and product.stock <= 0:
+        messages.error(request, f'{product.name} is out of stock.')
+        return redirect(request.GET.get('next', 'shop:shop_list'))
     
     cart = get_cart(request)
     subscription_code = (request.POST.get('subscription_code') or request.GET.get('subscription_code') or '').strip()
@@ -305,6 +325,23 @@ def add_to_cart(request, product_id):
     normalized_code = subscription_option.get('code') if subscription_option else ''
     cart_key = _build_cart_key(product_id, normalized_code)
 
+    current_quantity = cart.get(cart_key, 0)
+    
+    # For account category products, limit to 1 per cart
+    if product.category and product.category.name.lower() in ['accounts', 'account']:
+        if current_quantity >= 1:
+            messages.error(request, f'You can only add 1 {product.name} to your cart.')
+            return redirect(request.GET.get('next', 'shop:shop_list'))
+        # Set quantity to 1 for account products
+        cart[cart_key] = 1
+        save_cart(request, cart)
+        messages.success(request, f'{product.name} added to cart')
+        return redirect(request.GET.get('next', 'shop:shop_list'))
+    
+    if product.stock is not None and product.stock > 0 and current_quantity + 1 > product.stock:
+        messages.error(request, f'Only {product.stock} items available for {product.name}.')
+        return redirect(request.GET.get('next', 'shop:shop_list'))
+
     if cart_key in cart:
         cart[cart_key] += 1
     else:
@@ -316,7 +353,7 @@ def add_to_cart(request, product_id):
     # Return to shop or previous page
     return redirect(request.GET.get('next', 'shop:shop_list'))
 
-@login_required
+@login_required(login_url='shop:login')
 def remove_from_cart(request, product_id):
     """Remove product from cart"""
     cart = get_cart(request)
@@ -337,6 +374,7 @@ def update_cart(request, product_id):
     if request.method != 'POST':
         return redirect('shop:cart')
     
+    product = get_object_or_404(Product, id=product_id)
     cart = get_cart(request)
     subscription_code = (request.POST.get('subscription_code') or '').strip()
     cart_key = _build_cart_key(product_id, subscription_code)
@@ -348,6 +386,18 @@ def update_cart(request, product_id):
             quantity = 0
     except ValueError:
         quantity = 0
+
+    # For account category products, limit to 1
+    if product.category and product.category.name.lower() in ['accounts', 'account']:
+        if quantity > 1:
+            messages.error(request, f'You can only have 1 {product.name} in your cart.')
+            return redirect('shop:cart')
+        quantity = min(quantity, 1)
+
+    # Check stock availability
+    if product.stock is not None and product.stock > 0 and quantity > product.stock:
+        messages.error(request, f'Only {product.stock} items available for {product.name}.')
+        return redirect('shop:cart')
 
     if quantity == 0:
         if cart_key in cart:
@@ -401,6 +451,26 @@ def checkout_view(request):
             return redirect('shop:cart')
         if cart_updated:
             save_cart(request, normalized_cart)
+
+        # Check stock availability before creating order
+        for item in cart_items:
+            product = item['product']
+            quantity = item['quantity']
+            if product.stock is not None and product.stock > 0:
+                # Check if stock is still available
+                if quantity > product.stock:
+                    messages.error(request, f'Insufficient stock for {product.name}. Only {product.stock} available.')
+                    return redirect('shop:cart')
+                # For account products, check if already purchased
+            if product.category and product.category.name.lower() in ['accounts', 'account']:
+                existing_purchase = OrderItem.objects.filter(
+                    order__user=request.user,
+                    order__status__in=['paid', 'awaiting_discord', 'pending'],
+                    product=product
+                ).exists()
+                if existing_purchase:
+                    messages.error(request, f'You have already purchased {product.name}. Account products can only be purchased once.')
+                    return redirect('shop:cart')
 
         order_items_data = []
         for item in cart_items:
@@ -466,13 +536,23 @@ def checkout_view(request):
                 messages.info(request, 'Join our Discord server to open your ticket.')
                 return redirect('shop:join_discord', order_id=order.order_id)
             if is_member is None:
-                logger.warning('Membership check failed for user %s; attempting ticket creation anyway', request.user.id)
+                logger.warning('Membership check failed for user %s; attempting ticket creation and fallback registration', request.user.id)
                 channel_id = send_order_ticket(order, created_items)
                 if channel_id:
                     order.discord_ticket_channel_id = channel_id
                     order.save(update_fields=['discord_ticket_channel_id'])
                     return redirect('shop:order_placed', order_id=order.order_id)
-                messages.warning(request, 'We could not verify your Discord membership yet. Please try again.')
+
+                # Fallback: register the pending order with the bot so it can create the ticket later
+                try:
+                    registered = register_pending_order(order, created_items)
+                except Exception:
+                    registered = False
+
+                if registered:
+                    messages.success(request, 'Your order is registered and the ticket will be created when the Discord service is available. You will receive a notification.')
+                else:
+                    messages.warning(request, 'We could not verify your Discord membership right now and automatic ticket creation failed. Please try again or contact support.')
                 return redirect('shop:join_discord', order_id=order.order_id)
 
             if not order.discord_ticket_channel_id:
@@ -501,10 +581,26 @@ def checkout_view(request):
     missing_sellauth_items = False
     for item in cart_items:
         product = item['product']
-        if product.sellauth_product_id and product.sellauth_variant_id:
+        # Prefer a variant ID specified on the subscription option itself
+        option = None
+        subscription_code = item.get('subscription_code') or ''
+        if subscription_code:
+            options = product.subscription_options or []
+            for opt in options:
+                if (opt or {}).get('code') == subscription_code:
+                    option = opt
+                    break
+
+        variant_id = None
+        if option and option.get('sellauth_variant_id'):
+            variant_id = option.get('sellauth_variant_id')
+        elif getattr(product, 'sellauth_variant_id', None):
+            variant_id = product.sellauth_variant_id
+
+        if product.sellauth_product_id and variant_id:
             sellauth_cart.append({
                 'productId': int(product.sellauth_product_id),
-                'variantId': int(product.sellauth_variant_id),
+                'variantId': int(variant_id),
                 'quantity': int(item['quantity']),
             })
         else:
@@ -580,6 +676,12 @@ def sellauth_confirm(request):
             subscription_label=item['subscription_label'],
             subscription_duration_days=item['subscription_duration_days'],
         )
+
+    # Reduce stock for products in this order (skip account products)
+    for item in order_items_data:
+        if item['product'].stock is not None and item['product'].stock > 0 and item['product'].category.name.lower() != 'account':
+            item['product'].stock -= item['quantity']
+            item['product'].save(update_fields=['stock'])
 
     save_cart(request, {})
 
@@ -759,6 +861,12 @@ def discord_order_paid(request):
     order.confirmed_by = confirmed_by
     order.save(update_fields=['status', 'payment_status', 'paid_at', 'confirmed_by'])
 
+    # Reduce stock for products in this order (skip account products)
+    for item in order.items.all():
+        if item.product.stock is not None and item.product.stock > 0 and item.product.category.name.lower() != 'account':
+            item.product.stock -= item.quantity
+            item.product.save(update_fields=['stock'])
+
     return JsonResponse({'ok': True, 'order_id': order.order_id, 'status': 'paid'})
 
 
@@ -806,6 +914,46 @@ def discord_activation_create(request):
     })
 
 
+@csrf_exempt
+@require_POST
+def discord_activation_manual(request):
+    """Create an activation code via the Discord bot API.
+
+    Expected JSON payload: { "duration_days": <int>, "discord_id": "<discord_id>" }
+    """
+    if not _discord_api_authorized(request):
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
+
+    payload = _parse_json_payload(request)
+    if not payload:
+        return JsonResponse({'error': 'Invalid JSON payload'}, status=400)
+
+    duration_days = payload.get('duration_days')
+    discord_id = (payload.get('discord_id') or '').strip()
+
+    if duration_days is None:
+        return JsonResponse({'error': 'Missing duration_days'}, status=400)
+
+    try:
+        duration_int = int(duration_days)
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid duration_days'}, status=400)
+
+    duration_value = None
+    if duration_int > 0:
+        duration_value = timedelta(days=duration_int)
+
+    code = generate_activation_code()
+    ActivationCode.objects.create(code=code, duration=duration_value)
+
+    return JsonResponse({
+        'ok': True,
+        'code': code,
+        'duration_days': duration_int,
+        'discord_id': discord_id or None,
+    })
+
+
 @login_required(login_url='shop:login')
 def cash_success(request):
     """Display success page for cash payment orders"""
@@ -826,7 +974,7 @@ def cash_success(request):
         return redirect('shop:shop_list')
     
     # Discord invite link
-    discord_link = 'https://discord.gg/F72UEFjNHv'
+    discord_link = 'https://discord.gg/KNMHB26RRh'
     
     context = {
         'order': order,
@@ -899,21 +1047,31 @@ def product_detail(request, slug):
 
 
     # Reviews summary and likes
-    reviews_qs = product.reviews.select_related('user').annotate(likes_count=Count('likes'))
-    reviews_count = reviews_qs.count()
-    avg_rating = reviews_qs.aggregate(avg=Avg('rating'))['avg'] or 0
-    avg_rating_rounded = int(round(float(avg_rating))) if avg_rating else 0
+    show_reviews = not (product.category and product.category.name.lower() in ['accounts', 'account'])
+    if show_reviews:
+        reviews_qs = product.reviews.select_related('user').annotate(likes_count=Count('likes'))
+        reviews_count = reviews_qs.count()
+        avg_rating = reviews_qs.aggregate(avg=Avg('rating'))['avg'] or 0
+        avg_rating_rounded = int(round(float(avg_rating))) if avg_rating else 0
+    else:
+        reviews_qs = Review.objects.none()
+        reviews_count = 0
+        avg_rating = 0
+        avg_rating_rounded = 0
 
     user_review = None
     liked_review_ids = set()
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and show_reviews:
         user_review = reviews_qs.filter(user=request.user).first()
         liked_review_ids = set(ReviewLike.objects.filter(user=request.user, review__product=product).values_list('review_id', flat=True))
 
     # Determine if user can review: one review per product per user
     can_review = False
     eligible_order_items = []
-    if request.user.is_authenticated:
+    # Disable reviews for account categories
+    if product.category and product.category.name.lower() in ['accounts', 'account']:
+        can_review = False
+    elif request.user.is_authenticated:
         if not Review.objects.filter(user=request.user, product=product).exists():
             eligible_order_items = list(
                 OrderItem.objects.filter(order__user=request.user, order__status='paid', product=product)
@@ -952,16 +1110,19 @@ def product_detail(request, slug):
         in_wishlist = Wishlist.objects.filter(user=request.user, product=product).exists()
 
     # Rating breakdown counts (1-5)
-    raw_counts = product.reviews.values('rating').annotate(count=Count('id'))
-    counts = {i: 0 for i in range(1, 6)}
-    for row in raw_counts:
-        counts[row['rating']] = row['count']
-    total_reviews = reviews_count
-    distribution = []
-    for r in range(5, 0, -1):
-        c = counts.get(r, 0)
-        pct = int((c / total_reviews) * 100) if total_reviews else 0
-        distribution.append({'rating': r, 'count': c, 'percent': pct})
+    if show_reviews:
+        raw_counts = product.reviews.values('rating').annotate(count=Count('id'))
+        counts = {i: 0 for i in range(1, 6)}
+        for row in raw_counts:
+            counts[row['rating']] = row['count']
+        total_reviews = reviews_count
+        distribution = []
+        for r in range(5, 0, -1):
+            c = counts.get(r, 0)
+            pct = int((c / total_reviews) * 100) if total_reviews else 0
+            distribution.append({'rating': r, 'count': c, 'percent': pct})
+    else:
+        distribution = []
 
     context = {
         'product': product,
@@ -969,6 +1130,7 @@ def product_detail(request, slug):
             (option or {}).get('code') == 'trial'
             for option in (product.subscription_options or [])
         ),
+        'show_reviews': show_reviews,
         'reviews': reviews_qs,
         'reviews_count': reviews_count,
         'avg_rating': avg_rating,
@@ -988,6 +1150,11 @@ def toggle_review_like(request, review_id):
     if request.method != 'POST':
         return HttpResponseBadRequest('POST required')
     review = get_object_or_404(Review, id=review_id)
+    
+    # Disable review likes for account categories
+    if review.product.category and review.product.category.name.lower() in ['accounts', 'account']:
+        return JsonResponse({'error': 'Review interactions are not available for this product category'}, status=400)
+    
     if review.user == request.user:
         return JsonResponse({'error': 'Cannot like your own review'}, status=400)
 
@@ -1019,6 +1186,12 @@ def wishlist_count(request):
 @require_POST
 def add_review(request, product_id):
     product = get_object_or_404(Product, id=product_id, is_active=True)
+    
+    # Disable reviews for account categories
+    if product.category and product.category.name.lower() in ['accounts', 'account']:
+        messages.error(request, 'Reviews are not available for this product category')
+        return redirect('shop:product_detail', slug=product.slug)
+    
     # Validate fields
     try:
         rating = int(request.POST.get('rating', 0))
@@ -1110,6 +1283,9 @@ def download_pc(request):
         'versions_pc': versions_pc,
     }
     return render(request, 'shop/download_pc.html', context)
+
+
+ 
 
 
 # ═══════════════════════════════════════════════════════════════════════════

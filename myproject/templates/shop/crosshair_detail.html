@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ crosshair.name }} — Crosshair{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'shop/css/crosshairs.css' %}">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+    <div>
+      <a href="/crosshairs/" class="inline-block mt-6 mb-6 text-sm text-gray-400 hover:text-white">← Back to list</a>
+
+      <!-- Main crosshair preview (shows only crosshair PNG centered with glow & float) -->
+      <div class="preview-area glass rounded-lg overflow-hidden shadow-lg relative flex items-center justify-center p-8">
+        {% if crosshair.main_image %}
+          <div class="main-crosshair-wrap relative w-full h-[420px] flex items-center justify-center">
+            <div class="crosshair-glow absolute w-56 h-56 rounded-full pointer-events-none blur-2xl opacity-60"></div>
+            <img id="mainPreview" src="{{ crosshair.main_image.url }}" loading="lazy" decoding="async" class="crosshair-main z-10" alt="{{ crosshair.name }}">
+          </div>
+        {% else %}
+          <div class="h-72 flex items-center justify-center text-gray-500">No preview</div>
+        {% endif %}
+      </div>
+
+      <!-- Gallery: 6 background previews overlaid with the crosshair PNG -->
+      <div class="mt-4 grid grid-cols-3 gap-3">
+        <!-- Background 1 -->
+        <button class="preview-box relative overflow-hidden rounded-lg focus:outline-none group" data-bg="{% static 'shop/images/cross_bg1.webp' %}">
+          <img src="{% static 'shop/images/cross_bg1.webp' %}" alt="bg1" class="bg-image w-full h-28 object-cover transition-transform duration-300 group-hover:scale-105">
+          {% if crosshair.main_image %}
+            <img src="{{ crosshair.main_image.url }}" alt="overlay" class="crosshair-overlay pointer-events-none">
+          {% elif crosshair.images.first %}
+            <img src="{{ crosshair.images.first.image.url }}" alt="overlay" class="crosshair-overlay pointer-events-none">
+          {% endif %}
+        </button>
+
+        <!-- Background 2 -->
+        <button class="preview-box relative overflow-hidden rounded-lg focus:outline-none group" data-bg="{% static 'shop/images/cross_bg2.webp' %}">
+          <img src="{% static 'shop/images/cross_bg2.webp' %}" alt="bg2" class="bg-image w-full h-28 object-cover transition-transform duration-300 group-hover:scale-105">
+          {% if crosshair.main_image %}
+            <img src="{{ crosshair.main_image.url }}" alt="overlay" class="crosshair-overlay pointer-events-none">
+          {% elif crosshair.images.first %}
+            <img src="{{ crosshair.images.first.image.url }}" alt="overlay" class="crosshair-overlay pointer-events-none">
+          {% endif %}
+        </button>
+
+        <!-- Background 3 -->
+        <button class="preview-box relative overflow-hidden rounded-lg focus:outline-none group" data-bg="{% static 'shop/images/cross_bg3.webp' %}">
+          <img src="{% static 'shop/images/cross_bg3.webp' %}" alt="bg3" class="bg-image w-full h-28 object-cover transition-transform duration-300 group-hover:scale-105">
+          {% if crosshair.main_image %}
+            <img src="{{ crosshair.main_image.url }}" alt="overlay" class="crosshair-overlay pointer-events-none">
+          {% elif crosshair.images.first %}
+            <img src="{{ crosshair.images.first.image.url }}" alt="overlay" class="crosshair-overlay pointer-events-none">
+          {% endif %}
+        </button>
+
+        <!-- Background 4 -->
+        <button class="preview-box relative overflow-hidden rounded-lg focus:outline-none group" data-bg="{% static 'shop/images/cross_bg4.webp' %}">
+          <img src="{% static 'shop/images/cross_bg4.webp' %}" alt="bg4" class="bg-image w-full h-28 object-cover transition-transform duration-300 group-hover:scale-105">
+          {% if crosshair.main_image %}
+            <img src="{{ crosshair.main_image.url }}" alt="overlay" class="crosshair-overlay pointer-events-none">
+          {% elif crosshair.images.first %}
+            <img src="{{ crosshair.images.first.image.url }}" alt="overlay" class="crosshair-overlay pointer-events-none">
+          {% endif %}
+        </button>
+
+        <!-- Background 5 -->
+        <button class="preview-box relative overflow-hidden rounded-lg focus:outline-none group" data-bg="{% static 'shop/images/cross_bg5.webp' %}">
+          <img src="{% static 'shop/images/cross_bg5.webp' %}" alt="bg5" class="bg-image w-full h-28 object-cover transition-transform duration-300 group-hover:scale-105">
+          {% if crosshair.main_image %}
+            <img src="{{ crosshair.main_image.url }}" alt="overlay" class="crosshair-overlay pointer-events-none">
+          {% elif crosshair.images.first %}
+            <img src="{{ crosshair.images.first.image.url }}" alt="overlay" class="crosshair-overlay pointer-events-none">
+          {% endif %}
+        </button>
+
+        <!-- Background 6 -->
+        <button class="preview-box relative overflow-hidden rounded-lg focus:outline-none group" data-bg="{% static 'shop/images/cross_bg6.webp' %}">
+          <img src="{% static 'shop/images/cross_bg6.webp' %}" alt="bg6" class="bg-image w-full h-28 object-cover transition-transform duration-300 group-hover:scale-105">
+          {% if crosshair.main_image %}
+            <img src="{{ crosshair.main_image.url }}" alt="overlay" class="crosshair-overlay pointer-events-none">
+          {% elif crosshair.images.first %}
+            <img src="{{ crosshair.images.first.image.url }}" alt="overlay" class="crosshair-overlay pointer-events-none">
+          {% endif %}
+        </button>
+      </div>
+    </div>
+
+    <div class="text-white">
+      <h2 class="text-2xl font-bold">{{ crosshair.name }}</h2>
+      <p class="text-gray-400 mt-3">{{ crosshair.description }}</p>
+
+      <div class="mt-6 bg-dark-800 rounded-lg p-4 glass border border-dark-600">
+        <pre id="crosshairCode" class="whitespace-pre-wrap text-sm text-gray-100">{{ crosshair.crosshair_code }}</pre>
+        <div class="mt-4 flex items-center gap-3">
+          <button id="copyBtn" class="btn-copy px-4 py-2 rounded-lg bg-gradient-to-r from-primary to-primary-dark text-white font-semibold overflow-hidden">Copy Code</button>
+          <div class="ml-auto text-gray-400">Copies: <span id="copiesCount" class="inline-block ml-2">{{ crosshair.copies_count }}</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'shop/js/crosshairs.js' %}"></script>
+{% endblock %}

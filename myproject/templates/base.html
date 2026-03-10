@@ -160,6 +160,7 @@
                     <a href="{% url 'shop:shop_list' %}" class="nav-link text-gray-300 hover:text-white transition-colors">Shop</a>
                     <a href="/contact" class="nav-link text-gray-300 hover:text-white transition-colors">Contact</a>
                     <a href="{% url 'downloads:download_latest' %}" class="nav-link text-gray-300 hover:text-white transition-colors">Download</a>
+                    <a href="/tournaments/" class="nav-link text-gray-300 hover:text-white transition-colors">Tournaments</a>
                     
                 </div>
 
@@ -169,11 +170,17 @@
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                             </svg>
-                            <span id="cartCount" class="absolute -top-1 -right-1 bg-red-600 text-xs rounded-full px-1">{{ cart_count|default:0 }}</span>
+                            {% if cart_count %}
+                                <span id="cartCount" class="absolute -top-1 -right-1 bg-red-600 text-xs rounded-full px-1">{{ cart_count|default:0 }}</span>
+                            {% endif %}
                         </a>
                         <a href="{% url 'shop:wishlist' %}" id="wishlistLink" class="relative text-gray-300 hover:text-white transition-colors p-2">
                             <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.716-4.35-9.222-7.02C-0.14 10.35 2.3 5 7.333 5 9.79 5 12 7 12 7s2.21-2 4.667-2C21.7 5 24.14 10.35 21.222 13.98 18.716 16.65 12 21 12 21z"/></svg>
-                            <span id="wishlistCount" class="absolute -top-1 -right-1 bg-red-600 text-xs rounded-full px-1">{% if user.is_authenticated %}{{ user.wishlist.count }}{% else %}0{% endif %}</span>
+                            {% if user.is_authenticated %}
+                            {% if user.wishlist.count %}
+                            <span id="wishlistCount" class="absolute -top-1 -right-1 bg-red-600 text-xs rounded-full px-1">{{ user.wishlist.count }}</span>
+                            {% endif %}
+                            {% endif %}
                         </a>
                         <div class="h-6 w-px bg-gray-700"></div>
                         <a href="{% url 'shop:dashboard' %}" class="text-gray-300 hover:text-white transition-colors text-sm font-medium">{{ user.username }}</a>
@@ -198,6 +205,7 @@
                 <a href="/" class="block py-2 text-gray-300 hover:text-white">Home</a>
                 <a href="/about" class="block py-2 text-gray-300 hover:text-white">About</a>
                 <a href="{% url 'shop:shop_list' %}" class="block py-2 text-gray-300 hover:text-white">Shop</a>
+                        
                 <a href="/contact" class="block py-2 text-gray-300 hover:text-white">Contact</a>
                 <a href="{% url 'downloads:download_latest' %}" class="block py-2 text-gray-300 hover:text-white">Download</a>
                 <div class="pt-4 border-t border-dark-600 space-y-2">

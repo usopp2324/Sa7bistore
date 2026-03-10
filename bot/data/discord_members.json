@@ -1,8 +1,15 @@
 {
-    "pending": [],
-    "members": [{
-        "discord_id": "926124450326401084",
-        "discord_tag": "biiiirb",
-        "joined_at": "2026-02-07T16:55:02.466Z"
-    }]
+  "pending": [],
+  "members": [
+    {
+      "discord_id": "926124450326401084",
+      "discord_tag": "biiiirb",
+      "joined_at": "2026-02-07T16:55:02.466Z"
+    },
+    {
+      "discord_id": "1088183756097073333",
+      "discord_tag": "1y.u.h",
+      "joined_at": "2026-03-09T18:43:10.654Z"
+    }
+  ]
 }

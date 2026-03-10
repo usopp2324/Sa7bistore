@@ -55,26 +55,26 @@
     <!-- Left Column: Product Image & Details -->
     <div class="lg:col-span-2 space-y-8">
       <!-- Product Image -->
-      <div class="product-image-container rounded-2xl p-8 backdrop-blur-sm">
+      <div class="product-image-container rounded-2xl p-4 sm:p-6 lg:p-8 backdrop-blur-sm">
           {% if product.image %}
-            <img id="main-product-image" src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover transform transition-transform duration-500 hover:scale-105 rounded-xl">
+            <img id="main-product-image" src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-72 sm:h-96 object-cover transform transition-transform duration-500 hover:scale-105 rounded-xl">
           {% elif product.images.first %}
-            <img id="main-product-image" src="{{ product.images.first.image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover transform transition-transform duration-500 hover:scale-105 rounded-xl">
+            <img id="main-product-image" src="{{ product.images.first.image.url }}" alt="{{ product.name }}" class="w-full h-72 sm:h-96 object-cover transform transition-transform duration-500 hover:scale-105 rounded-xl">
           {% else %}
             <div class="w-full h-full bg-gradient-to-br from-slate-600 to-slate-700 flex items-center justify-center text-slate-500">
               <svg class="w-24 h-24 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             </div>
           {% endif %}
           {% if product.images.exists or product.image %}
-          <div class="mt-3 max-w-xl py-5">
-            <div class="grid grid-cols-4 sm:grid-cols-6 gap-20 justify-items-start" id="product-thumbnails">
+          <div class="mt-3 py-5 overflow-x-auto">
+            <div class="inline-flex gap-3 sm:gap-6 items-center" id="product-thumbnails">
               {% if product.image %}
-              <button type="button" class="thumb-btn is-active border border-slate-700/50 rounded-xl overflow-hidden w-20 sm:w-24 aspect-[16/9]" data-full="{{ product.image.url }}">
+              <button type="button" class="thumb-btn is-active border border-slate-700/50 rounded-xl overflow-hidden w-16 sm:w-20 md:w-24 aspect-[16/9]" data-full="{{ product.image.url }}">
                 <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover">
               </button>
               {% endif %}
               {% for image in product.images.all %}
-              <button type="button" class="thumb-btn border border-slate-700/50 rounded-xl overflow-hidden w-20 sm:w-24 aspect-[16/9]" data-full="{{ image.image.url }}">
+              <button type="button" class="thumb-btn border border-slate-700/50 rounded-xl overflow-hidden w-16 sm:w-20 md:w-24 aspect-[16/9]" data-full="{{ image.image.url }}">
                 <img src="{{ image.image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover">
               </button>
               {% endfor %}
@@ -134,6 +134,7 @@
         {% endif %}
       </div>
 
+      {% if show_reviews %}
       <!-- Reviews Section -->
       <div class="bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-2xl p-8 border border-slate-700/50 backdrop-blur-sm shadow-2xl shadow-black/20">
         <h3 class="text-2xl font-bold text-white mb-8 flex items-center gap-2">
@@ -273,11 +274,12 @@
           {% endif %}
         </div>
       </div>
+      {% endif %}
     </div>
 
     <!-- Right Column: Purchase Sidebar -->
     <div class="lg:col-span-1">
-      <div class="sticky top-24 bg-gradient-to-br from-slate-800/60 to-slate-900/60 rounded-2xl p-8 border border-slate-700/50 backdrop-blur-sm shadow-2xl shadow-black/20">
+      <div class="lg:sticky lg:top-24 bg-gradient-to-br from-slate-800/60 to-slate-900/60 rounded-2xl p-6 lg:p-8 border border-slate-700/50 backdrop-blur-sm shadow-2xl shadow-black/20">
         <!-- Product Name & Price -->
         <div class="mb-8">
           <h1 class="text-3xl font-black gradient-text mb-3">{{ product.name }}</h1>
@@ -376,12 +378,27 @@
         <div class="pt-6 border-t border-slate-700/50 space-y-3">
           <div class="flex items-center justify-between">
             <span class="text-sm text-slate-400">Category:</span>
-            <span class="text-sm font-semibold text-white">Gaming Services</span>
+            <span class="text-sm font-semibold text-white">{{ product.category.name|default:"Uncategorized" }}</span>
           </div>
           <div class="flex items-center justify-between">
             <span class="text-sm text-slate-400">Product ID:</span>
             <span class="text-sm font-semibold text-white">{{ product.id }}</span>
           </div>
+          {% if product.category and product.category.name|lower == 'accounts' or product.category.name|lower == 'account' %}
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-slate-400">Stock:</span>
+              <span class="text-sm font-semibold text-green-400">1 available</span>
+            </div>
+          {% elif product.stock is not None %}
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-slate-400">Stock:</span>
+              {% if product.stock > 0 %}
+                <span class="text-sm font-semibold text-green-400">{{ product.stock }} available</span>
+              {% else %}
+                <span class="text-sm font-semibold text-red-400">Out of stock</span>
+              {% endif %}
+            </div>
+          {% endif %}
           {% if product.slug %}
             <div class="flex items-center justify-between">
               <span class="text-sm text-slate-400">SKU:</span>

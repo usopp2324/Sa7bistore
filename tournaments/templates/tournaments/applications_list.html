@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+  <h1 class="text-2xl font-bold mb-4">Applications</h1>
+  <div class="space-y-3">
+    {% for app in applications %}
+      <a href="{% url 'tournaments:application_detail' app.pk %}" class="glass p-4 rounded-lg block hover:shadow-md transition">
+        <div class="flex items-center justify-between">
+          <div>{{ app.applicant.username }} <span class="text-gray-400">— {{ app.tournament.title }}</span></div>
+          <div class="text-sm text-gray-300">{{ app.get_status_display }}</div>
+        </div>
+      </a>
+    {% empty %}
+      <div class="text-gray-400">No applications.</div>
+    {% endfor %}
+  </div>
+</div>
+<link rel="stylesheet" href="{% static 'tournaments/css/tournaments.css' %}">
+{% endblock %}

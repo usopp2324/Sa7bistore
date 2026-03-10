@@ -152,13 +152,11 @@ async function createTicketChannel({ client, guildId, supportRoleId, categoryId,
         await channel.send({ content: `<@&${"1455988549395415050"}>` });
         await channel.send({ content: `${clientMention}` });
         const orderContainer = buildOrderContainer(order);
-        const openButton = buildOpenTicketButton(order.order_id);
 
         await channel.send({
             flags: MessageFlags.IsComponentsV2,
             components: [
-                orderContainer,
-                openButton
+                orderContainer
             ],
         });
     } catch (error) {
@@ -188,7 +186,6 @@ async function updateTicketStatus(guild, orderId, status) {
 }
 
 module.exports = {
-    buildOpenTicketButton,
     buildOrderContainer,
     createTicketChannel,
     findTicketChannel,

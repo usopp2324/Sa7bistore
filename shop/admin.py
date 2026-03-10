@@ -1,22 +1,37 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Product, ProductImage, Order, OrderItem
+from django.db import models
+from .models import (
+    Product,
+    ProductImage,
+    Order,
+    OrderItem,
+    Wishlist,
+    Review,
+    ContactMessage,
+    UserProfile,
+    Category,
+)
+
+
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
     extra = 1
     fields = ('image',)
 
-from .models import Wishlist, Review, ContactMessage, UserProfile
+
+
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('image_tag', 'name', 'price',  'is_active', 'created_at')
-    list_filter = ('is_active',)
+    list_display = ('image_tag', 'name', 'category', 'price', 'is_active', 'created_at')
+    list_filter = ('is_active', 'category')
     search_fields = ('name', 'description')
     readonly_fields = ('image_preview',)
     fields = (
         'name',
+        'category',
         'description',
         'price',
         'subscription_options',
@@ -43,8 +58,14 @@ class ProductAdmin(admin.ModelAdmin):
     image_tag.short_description = 'Image'
 
 
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'created_at')
+    search_fields = ('name',)
+    fields = ('name', )
+
+
 class OrderItemInline(admin.TabularInline):
-    """Inline admin for order items"""
     model = OrderItem
     extra = 0
     readonly_fields = ('product', 'subscription_label', 'subscription_duration_days', 'quantity', 'price', 'subtotal')
@@ -114,6 +135,7 @@ class ReviewAdmin(admin.ModelAdmin):
     list_filter = ('rating', 'product')
     readonly_fields = ('created_at',)
 
+
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
     list_display = ('id_short', 'name', 'subject_display', 'email', 'is_read_badge', 'created_at')
@@ -156,7 +178,7 @@ class ContactMessageAdmin(admin.ModelAdmin):
 
     def mark_as_unread(self, request, queryset):
         updated = queryset.update(is_read=False)
-        self.message_user(request, f'{updated} message(s) marked as unread.')
+        self.message_user(request, f'{updated} message(s) marked as unread')
     mark_as_unread.short_description = 'Mark selected as unread'
 
 
@@ -176,3 +198,6 @@ class UserProfileAdmin(admin.ModelAdmin):
             )
         return '—'
     discord_id_display.short_description = 'Discord ID'
+
+
+ 

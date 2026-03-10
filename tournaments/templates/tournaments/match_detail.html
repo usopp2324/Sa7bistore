@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+	<div class="glass p-6 rounded-lg">
+		<h2 class="text-2xl font-bold">Match</h2>
+		<div class="mt-4 match-card">
+			<div>
+				<div class="team-name">{{ match.team_a }}</div>
+				<div class="text-gray-400 text-sm">vs</div>
+				<div class="team-name">{{ match.team_b }}</div>
+			</div>
+			<div class="text-right">
+				<div class="score-pill">{{ match.score|default:'TBD' }}</div>
+				<div class="text-sm text-gray-400 mt-2">Winner: {{ match.winner }}</div>
+			</div>
+		</div>
+		<div class="mt-4">
+			<div class="text-sm text-gray-400">Date</div>
+			<div class="font-semibold">{{ match.date }}</div>
+		</div>
+		<div class="mt-4">
+			<div class="text-sm text-gray-400">Proof</div>
+			<div><a href="{{ match.proof }}" class="text-primary hover:underline">View proof</a></div>
+		</div>
+	</div>
+</div>
+<link rel="stylesheet" href="{% static 'tournaments/css/tournaments.css' %}">
+{% endblock %}

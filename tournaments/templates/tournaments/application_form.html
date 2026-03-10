@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+  <div class="tournament-form glass">
+    <h2 class="text-2xl font-bold tournament-title">Apply to {{ tournament.title }}</h2>
+    <p class="text-gray-400 mb-4">Fill your information below. IGN#Tag must be unique.</p>
+    <form method="post" class="space-y-3">
+      {% csrf_token %}
+      <label>IGN#Tag
+        <input name="ign_tag" required placeholder="e.g. Player#NA1">
+      </label>
+      <label>Team name (optional)
+        <input name="team_name" placeholder="Optional team tag (use for skirmish teams)">
+      </label>
+      <label>Rank
+        <input name="rank" required placeholder="e.g. Immortal">
+      </label>
+      <div class="grid grid-cols-2 gap-4">
+        <label>Age
+          <input name="age" type="number" min="10" max="120">
+        </label>
+        <label>Country
+          <input name="country">
+        </label>
+      </div>
+      <label>City
+        <input name="city">
+      </label>
+      <label>Where did you hear about us?
+        <input name="heard_from" placeholder="Discord / Twitter / Friend">
+      </label>
+      <div class="flex items-center justify-end">
+        <button type="submit" class="btn-submit">Submit Application</button>
+      </div>
+    </form>
+  </div>
+</div>
+<link rel="stylesheet" href="{% static 'tournaments/css/tournaments.css' %}">
+{% endblock %}

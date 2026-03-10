@@ -35,9 +35,12 @@ urlpatterns = [
     path('api/discord/order/create/', shop_views.discord_order_create, name='discord_order_create'),
     path('api/discord/order/paid/', shop_views.discord_order_paid, name='discord_order_paid'),
     path('api/discord/activation/create/', shop_views.discord_activation_create, name='discord_activation_create'),
+    path('api/discord/activation/create_manual/', shop_views.discord_activation_manual, name='discord_activation_manual'),
+    
     path('admin/', admin.site.urls),
     path('download/', include('downloads.urls')),
     path('shop/', include('shop.urls')),
+    path('tournaments/', include('tournaments.urls')),
 ]
 
 if settings.DEBUG:

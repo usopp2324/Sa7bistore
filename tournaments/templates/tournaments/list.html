@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+  <h1 class="text-3xl font-bold mb-6">Tournaments</h1>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {% for t in tournaments %}
+    <a href="{% url 'tournaments:detail' t.pk %}" class="product-card glass p-6 rounded-lg block hover:shadow-lg transition">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-xl font-semibold">{{ t.title }}</div>
+          <div class="text-gray-400 text-sm">{{ t.date }} · {{ t.get_gamemode_display }}</div>
+        </div>
+        <div class="text-sm text-gray-300">{{ t.get_status_display }}</div>
+      </div>
+    </a>
+    {% empty %}
+    <div class="text-gray-400">No tournaments.</div>
+    {% endfor %}
+  </div>
+</div>
+<link rel="stylesheet" href="{% static 'tournaments/css/tournaments.css' %}">
+{% endblock %}

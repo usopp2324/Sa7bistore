@@ -77,14 +77,18 @@ def send_order_ticket(order, order_items):
         'status': 'Pending',
         'total_price': str(order.total_price),
         'items': [
-            {
-                'name': item.product.name,
-                'quantity': item.quantity,
-                'price': str(item.price),
-                'subscription_label': item.subscription_label,
-                'duration_days': item.subscription_duration_days,
-                'image_url': _build_image_url(getattr(item.product, 'image', None)),
-            }
+            (lambda it: {
+                'name': it.product.name,
+                'quantity': it.quantity,
+                'price': str(it.price),
+                'subscription_label': it.subscription_label,
+                'duration_days': it.subscription_duration_days,
+                'image_url': _build_image_url(getattr(it.product, 'image', None)),
+                'sellauth_variant_id': (
+                    next((opt.get('sellauth_variant_id') for opt in (getattr(it.product, 'subscription_options', []) or []) if (opt or {}).get('code') == (getattr(it, 'subscription_code', '') or '')), None)
+                    or getattr(it.product, 'sellauth_variant_id', None)
+                ),
+            })(item)
             for item in order_items
         ],
     }
@@ -143,14 +147,18 @@ def register_pending_order(order, order_items):
         'status': 'Pending',
         'total_price': str(order.total_price),
         'items': [
-            {
-                'name': item.product.name,
-                'quantity': item.quantity,
-                'price': str(item.price),
-                'subscription_label': item.subscription_label,
-                'duration_days': item.subscription_duration_days,
-                'image_url': _build_image_url(getattr(item.product, 'image', None)),
-            }
+            (lambda it: {
+                'name': it.product.name,
+                'quantity': it.quantity,
+                'price': str(it.price),
+                'subscription_label': it.subscription_label,
+                'duration_days': it.subscription_duration_days,
+                'image_url': _build_image_url(getattr(it.product, 'image', None)),
+                'sellauth_variant_id': (
+                    next((opt.get('sellauth_variant_id') for opt in (getattr(it.product, 'subscription_options', []) or []) if (opt or {}).get('code') == (getattr(it, 'subscription_code', '') or '')), None)
+                    or getattr(it.product, 'sellauth_variant_id', None)
+                ),
+            })(item)
             for item in order_items
         ],
     }

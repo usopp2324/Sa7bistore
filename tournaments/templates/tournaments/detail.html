@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'tournaments/css/tournaments.css' %}">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+	<div class="glass p-6 rounded-lg fade-in">
+		<div class="flex items-start justify-between gap-6 flex-wrap">
+			<div>
+				<h1 class="text-3xl font-bold tournament-title">{{ tournament.title }}</h1>
+				<p class="text-gray-300 mt-2">Date: {{ tournament.date }} · Mode: {{ tournament.get_gamemode_display }}</p>
+				<p class="text-gray-400 mt-2">Teams: {{ tournament.num_teams }} — Team size: {{ tournament.team_size }}</p>
+				<p class="text-gray-300 mt-2">Prize: {{ tournament.prize }}</p>
+				<p class="mt-2 inline-block px-3 py-1 rounded-full bg-dark-700 text-sm">Status: {{ tournament.get_status_display }}</p>
+			</div>
+			<div class="flex items-center gap-4">
+				<a href="{% url 'tournaments:apply' tournament.pk %}" class="px-4 py-2 bg-gradient-to-r from-primary to-primary-dark rounded-lg font-semibold hover:opacity-90">Apply</a>
+			</div>
+		</div>
+
+		<hr class="my-6 border-dark-600">
+
+		<h2 class="text-xl font-semibold mb-4">Bracket</h2>
+		<div id="bracket-root"></div>
+
+		<script>
+			window.__TOURNAMENT_BRACKET__ = {{ bracket_data|default:'{}'|safe }};
+		</script>
+		<script src="{% static 'tournaments/js/bracket.js' %}"></script>
+	</div>
+</div>
+{% endblock %}
